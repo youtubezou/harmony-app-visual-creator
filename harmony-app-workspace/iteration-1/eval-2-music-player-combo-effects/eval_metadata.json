@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "music-player-combo-effects",
+  "prompt": "给我的鸿蒙音乐播放器页面加动效：专辑封面旋转动画（播放时转、暂停时停）、底部歌词列表毛玻璃背景、切歌时封面有共享元素转场效果。写成 ArkTS 代码。",
+  "assertions": [
+    "rotation-is-pausable: 封面旋转动画可暂停/恢复（createAnimator 的 play/pause 或等效状态控制机制）",
+    "frosted-glass-uses-blurstyle: 毛玻璃效果使用 foregroundBlurStyle/backgroundBlurStyle/backdropBlur 之一实现",
+    "shared-element-uses-geometrytransition: 共享元素转场使用 geometryTransition 实现",
+    "no-deprecated-apis: 不使用已废弃 API（全局 animateTo、animator.create、pageTransition、TransitionOptions、ParticleSystem）",
+    "arkts-strict-no-any: ArkTS 严格语法，不使用 any 类型"
+  ]
+}

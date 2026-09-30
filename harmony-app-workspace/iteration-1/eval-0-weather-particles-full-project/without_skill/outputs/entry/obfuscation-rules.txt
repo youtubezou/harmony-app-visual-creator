@@ -1,0 +1,15 @@
+# Define project specific obfuscation rules here.
+# You can include the obfuscation configuration files in the current module's build-profile.json5.
+#
+# Obfuscate the code of the current module:
+# 1. Set the enable field to true in the build-profile.json5 file.
+# 2. Add the obfuscation rules in this file.
+#
+# The obfuscation configuration files of the dependencies are merged into
+# the obfuscation configuration of the current module when the module is compiled.
+#
+# See https://developer.huawei.com for more information.
+-enable-property-obfuscation
+-enable-toplevel-obfuscation
+-enable-filename-obfuscation
+-enable-export-obfuscation

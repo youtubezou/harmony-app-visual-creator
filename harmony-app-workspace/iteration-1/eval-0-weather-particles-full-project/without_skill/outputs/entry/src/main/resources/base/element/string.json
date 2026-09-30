@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "天气粒子动画演示模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "天气粒子演示入口 Ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "天气粒子"
+    }
+  ]
+}

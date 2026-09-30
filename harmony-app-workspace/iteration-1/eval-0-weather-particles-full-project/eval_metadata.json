@@ -1,0 +1,13 @@
+{
+  "eval_id": 0,
+  "eval_name": "weather-particles-full-project",
+  "prompt": "帮我创建一个鸿蒙天气 App 的演示工程（HarmonyOS NEXT，ArkTS），首页要有雨滴下落和雪花飘落的粒子动画效果，云朵缓慢移动的动画，要能直接用 DevEco Studio 打开运行。",
+  "assertions": [
+    "project-structure-complete: 工程包含 Stage 模型必备文件（AppScope/app.json5、entry/src/main/module.json5、entry/src/main/ets/entryability/EntryAbility.ets、entry/src/main/resources/base/profile/main_pages.json、build-profile.json5、hvigorfile.ts、oh-package.json5）",
+    "uses-current-particle-component: 粒子动画使用当前组件名 Particle，而非已废弃的旧名 ParticleSystem/ParticleComponent",
+    "no-deprecated-global-animateto: 不使用已废弃的全局 animateTo() 调用（若出现 animateTo 必须是 getUIContext().animateTo 实例方法形式）",
+    "routes-registered: main_pages.json 注册了工程内全部页面",
+    "uses-kit-namespace: 模块导入使用 @kit.* 命名空间，不使用已废弃的 @ohos.animator 等旧动画接口",
+    "delivery-includes-run-and-version-notes: 交付说明包含运行方式（DevEco Studio/Previewer）与所用 API 版本声明"
+  ]
+}

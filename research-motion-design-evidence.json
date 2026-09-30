@@ -1,0 +1,223 @@
+{
+  "research_topic": "移动应用（重点 HarmonyOS）动效设计规范与设计→开发→验收协作模式",
+  "research_date": "2026-09-30",
+  "researcher": "subagent (web_fetch only; web_search 无 API key 不可用)",
+  "evidence": [
+    {
+      "id": 1,
+      "topic": "HarmonyOS动效设计原则",
+      "claim": "HarmonyOS/OpenHarmony 官方动效设计原则为六条：自然流畅、简洁高效、快速响应、运动一致、隐藏等待、凸显品牌；其中快速响应给出明确时长量级：长距离动效保持在 350ms 内、短距离 250ms 内、较短动画 150ms 内完成。",
+      "evidence_quote": "高效响应并减少过长的位移和时间。如长距离保持在350ms内，短距离保持在250ms内，较短的动画保持在150ms内完成动作，整体体现动画快速呈现。",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-design-principles.md",
+      "source_title": "动效设计原则 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 2,
+      "topic": "HarmonyOS时长规范",
+      "claim": "官方按时长复杂度与区域范围给出分档参考：仅颜色变化的简单动画约 100ms；旋转等复杂动画约 300ms；小范围（开关图标）150ms；局部范围（删除列表项）200ms；全屏范围（打开图片）350ms。60fps 下 1 帧=16.67ms。",
+      "evidence_quote": "简单动画 前后状态只通过颜色动效来实现, 时长：100ms | 复杂动画 旋转动画需要合适的时间来保证, 时长：300ms …… 小范围内运动 开关图标动效 时长：150ms | 局部范围内运动 删除一条列表, 时长：200ms | 全屏范围的运动 打开一张图片, 时长：350ms",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-attributes.md",
+      "source_title": "动效属性 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 3,
+      "topic": "HarmonyOS曲线规范",
+      "claim": "官方推荐三类贝塞尔曲线：标准曲线 cubic-bezier(0.40,0.00,0.20,1.00) 用于始终在视线内的对象（图片缩放、Tab切换、Switch）；减速曲线 cubic-bezier(0.00,0.00,0.40,1.00) 用于新进入视线的对象（弹框出现）；加速曲线用于退出/消失（窗口出场、卡片删除）。",
+      "evidence_quote": "标准曲线……使用原则：运动前后始终在用户视线范围内的物体……应用场景：图片缩放，Tab切换，Switch开关等。cubic-bezier(0.40,0.00,0.20,1.00) ……减速曲线……适用从视线中新出现的物体……应用场景：弹框出现等。cubic-bezier(0.00, 0.00, 0.40, 1.00) ……加速曲线……适用原本在视线中的物体，需要消失或出场……应用场景：窗口出场、卡片删除等。",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-attributes.md",
+      "source_title": "动效属性-曲线 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 4,
+      "topic": "HarmonyOS弹簧曲线",
+      "claim": "官方弹性曲线分两套参数体系：interpolatingSpring 由刚性(Stiffness)/阻尼(Damping)/质量(Mass)/速度(Velocity)四物理属性决定；springMotion 与 responsiveSpringMotion 由响应(Response)/阻尼比(DampingFraction)/重叠时长(overlapDuration)决定，两者可换算。弹性曲线核心特点是可打断自动匹配时长、继承速度、时长由物理模型自然计算。官方示例参数：interpolatingSpring Stiffness:128/Damping:12/Mass:1/Velocity:0 ≈ springMotion Response:0.555/DampingFraction:0.53。",
+      "evidence_quote": "interpolationSpring曲线由刚性、阻尼、质量、速度四个物理属性决定……springMotion 和 responsiveSpringMotion曲线由响应、阻尼比、重叠时长决定……支持可打断时长自动匹配……继承速度……自然时长：时长受弹性参数、属性变化、入参速度、精度算法共同影响。interpolatingSpring：Stiffness:128，Damping:12，Msss:1，Velocity:0；springmotion：Response:0.555，DampingFraction:0.53",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-attributes.md",
+      "source_title": "动效属性-弹性曲线 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 5,
+      "topic": "ArkUI弹簧参数默认值",
+      "claim": "ArkUI API 官方默认值：springMotion(response=0.55s, dampingFraction=0.825, overlapDuration=0)；responsiveSpringMotion 是其跟手特例，仅默认值不同(response=0.15s, dampingFraction=0.86, overlapDuration=0.25s)。物理曲线中 animation/animateTo 的 duration 参数不生效，动画时长取决于曲线参数与速度——验收时不能用固定时长断言。",
+      "evidence_quote": "springMotion……response 弹簧自然振动周期……默认值：0.55……dampingFraction 阻尼系数……默认值：0.825……overlapDuration……默认值：0……弹性动画曲线为物理曲线，animation、animateTo、pageTransition中的duration参数不生效，动画持续时间取决于springMotion动画曲线参数和之前的速度。responsiveSpringMotion……默认值：0.15……默认值：0.86……默认值：0.25",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/application-dev/reference/apis-arkui/js-apis-curve.md",
+      "source_title": "@ohos.curves (插值计算) - OpenHarmony ArkUI API参考",
+      "confidence": 0.99
+    },
+    {
+      "id": 6,
+      "topic": "ArkUI内置曲线枚举",
+      "claim": "ArkUI 内置 13 种命名曲线：FastOutSlowIn(标准 0.4,0,0.2,1)、LinearOutSlowIn(减速 0,0,0.2,1)、FastOutLinearIn(加速 0.4,0,1,1)、ExtremeDeceleration(急缓 0,0,0,1)、Sharp(锐利 0.33,0,0.67,1)、Rhythm(节奏 0.7,0,0.2,1)、Smooth(平滑 0.4,0,0.4,1)、Friction(阻尼 0.2,0,0.2,1) 等——设计交付可直接引用枚举名而非仅给贝塞尔值。",
+      "evidence_quote": "FastOutSlowIn | 标准曲线，cubic-bezier(0.4, 0.0, 0.2, 1.0)。LinearOutSlowIn | 减速曲线，cubic-bezier(0.0, 0.0, 0.2, 1.0)。FastOutLinearIn | 加速曲线，cubic-bezier(0.4, 0.0, 1.0, 1.0)。ExtremeDeceleration | 急缓曲线……Sharp | 锐利曲线……Rhythm | 节奏曲线，cubic-bezier(0.7, 0.0, 0.2, 1.0)。Smooth | 平滑曲线……Friction | 阻尼曲线……",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/application-dev/reference/apis-arkui/js-apis-curve.md",
+      "source_title": "@ohos.curves (插值计算) - OpenHarmony ArkUI API参考",
+      "confidence": 0.99
+    },
+    {
+      "id": 7,
+      "topic": "一镜到底与分层转场",
+      "claim": "HarmonyOS 官方提出『一镜到底』转场设计手法，三种实现方式：共享元素（转场前后持续存在的焦点元素）、共享容器（通过大小/高度/圆角补间）、共享动势（提取位移/缩放/旋转等共享运动属性）。转场动效在系统中占比 60% 以上；转场须先按层级关系分类（同层级/上下层级/跨层级），再对元素做场景解构（进场/出场/持续/静止四类），类别决定曲线与时长。",
+      "evidence_quote": "在设计手法上，我们推出了一镜到底的高级转场设计手法，可以提升视觉流畅性的同时又能增强动效品质感。……在系统占比最高的动效类型60%以上。……一镜到底属于是通过共享元素的一种转场编排方式……共享元素、共享容器、共享动势。……层级关系由系统架构和应用架构定义……同层级、上下层级、跨层级……进场元素、出场元素、持续元素、静止元素",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/transition-animation.md",
+      "source_title": "转场动效 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 8,
+      "topic": "手势动效与即时反馈",
+      "claim": "官方手势动效要求『无阻塞感』：点击按下接触过程平均 100~130ms，期间若无反馈则显迟滞，因此点击动效应在按下(touch down)那一刻即响应；滑动/夹捏分跟手、离手瞬间、离手后三阶段，离手动画必须继承手速；拖拽通过显控比设计产生渐强阻尼感。",
+      "evidence_quote": "按下接触过程平均时长100~130ms中，这期间对象无反馈，为提升响应速度，点击手势动效设计在按下那一刻即响应动效反馈……离手瞬间需要对象继承手速进行离手后的动画反馈，保证对象动效反馈的结果与手势动作的连贯性是滑动手势动效设计的关键。",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/gesture-animation.md",
+      "source_title": "手势动效 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.98
+    },
+    {
+      "id": 9,
+      "topic": "动效使用原则",
+      "claim": "HarmonyOS『生长动效』理念要求有目的地添加动效、遵循物理规律、快速简洁精确——与 Material/Apple 的『克制』原则一致，可作为动效评审的第一条标准。",
+      "evidence_quote": "有目的的添加，不要为了添加动效而添加，避免过多的动效分散用户的注意力，让他们感觉到脱节与不适。动效要有实现性，遵循科学的物理规律。尽量使动效快速、简洁、精确，符合更年轻化、轻量化的定义。",
+      "source_url": "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-overview.md",
+      "source_title": "动效概述 - OpenHarmony 应用UX设计规范",
+      "confidence": 0.97
+    },
+    {
+      "id": 10,
+      "topic": "HarmonyOS NEXT设计语言",
+      "claim": "华为官方 HarmonyOS 5 (NEXT) 消费端设计语言强调『精致交互、构建和谐美学秩序』，采用全新物理渲染引擎把真实世界光、色彩与运动规律投射到数字世界——这是当前鸿蒙动效'物理直觉'的官方表述（注：社区热议的『引力透镜』属于该体系下的特效语言，本次未能抓到含该词的官方静态页面，待二次核验）。",
+      "evidence_quote": "运用全新物理渲染引擎，隔着屏幕也能感受到真实世界的光、色彩层次和运动规律，将物理法则投射到数字世界，让交互更符合日常使用习惯，用起来流畅又顺手。",
+      "source_url": "https://consumer.huawei.com/cn/harmonyos-next/",
+      "source_title": "HarmonyOS 5 - 华为官网",
+      "confidence": 0.85
+    },
+    {
+      "id": 11,
+      "topic": "动效工程化规则库",
+      "claim": "社区项目 dososo/harmonyos-design 把 HarmonyOS 设计/动效规范工程化为 3 个 Agent Skill + 38 条机器可读规则（JSON Schema 校验），每条带来源等级(H1官方要求/H2官方参考/H3观察/H4项目建议)、ArkUI 落点与检测方式，并提供 52 条触发评测与真机验证示例——是『动效规范→可执行验收』的参考实现。",
+      "evidence_quote": "面向 AI Coding Agent、HarmonyOS 设计师与 ArkUI 开发者的独立、非官方设计与动效 Skill、规则库与评测基线。把公开的 HarmonyOS / OpenHarmony 设计原则和 ArkUI 能力，转化为可触发、可执行、可验证、可追溯的产品判断。……38 条机器可读规则——每条带来源、范围、证据、ArkUI 落点、检测方式",
+      "source_url": "https://github.com/dososo/harmonyos-design",
+      "source_title": "GitHub - dososo/HarmonyOS-Design: 面向 AI Agent 的 HarmonyOS/ArkUI 设计与动效 Skill、规则库与评测基线",
+      "confidence": 0.9
+    },
+    {
+      "id": 12,
+      "topic": "动效验收checklist工程化",
+      "claim": "该规则库给出可操作的动效验收项：时长须匹配距离/范围/复杂度（颜色≈100ms、局部≈200ms、全屏有上限并真机调校，反对所有动画统一300ms）；曲线语义匹配进入/退出/屏内；手势离手继承速度(springMotion/responsiveSpringMotion)；动画可打断并从当前状态重定向；物理曲线时长不得作为业务计时器；语义 MotionTokens 优先，禁止无来源魔法数。",
+      "evidence_quote": "使用公开时长参考建立量级，并根据运动距离、区域范围、复杂度、设备和触发频率调整；不得把一个时长套到所有组件。……颜色约100ms、局部约200ms、全屏不超过合理量级并经真机调校；bad: 所有动画统一300ms。……对springMotion、responsiveSpringMotion和interpolatingSpring，不得使用duration或预计结束时间驱动提交、删除、成功确认等业务状态。",
+      "source_url": "https://raw.githubusercontent.com/dososo/harmonyos-design/main/rules/harmony-design-rules.yaml",
+      "source_title": "harmony-design-rules.yaml - HarmonyOS-Design 规则库",
+      "confidence": 0.88
+    },
+    {
+      "id": 13,
+      "topic": "原型验证模式",
+      "claim": "动效评审不能只看静态稿：手势、转场、跨端连续性和高风险异步反馈必须用可执行原型或真实工程验证，并做快速连续操作、反向打断、慢放、目标设备与帧率/无障碍检查——构建成功不等于体验通过。",
+      "evidence_quote": "手势、转场、跨端连续性和高风险异步反馈不得仅凭静态稿或文字通过；至少需要可执行原型或真实工程，并进行快速连续操作、慢放和目标设备验证。……bad: 只凭 Figma 静态帧或模型描述声称手势自然流畅。……构建成功不等于体验通过。",
+      "source_url": "https://raw.githubusercontent.com/dososo/harmonyos-design/main/rules/harmony-design-rules.yaml",
+      "source_title": "harmony-design-rules.yaml - HD-FOUNDATION-007",
+      "confidence": 0.85
+    },
+    {
+      "id": 14,
+      "topic": "Material motion tokens",
+      "claim": "Material Design 把动效做成主题级 token 交付：16 个时长属性 motionDurationShort1-4(50/100/150/200ms)、Medium1-4(250/300/350/400ms)、Long1-4(450/500/550/600ms)、ExtraLong1-4(700/800/900/1000ms)；7 个缓动属性（standard cubic-bezier(0.2,0,0,1)、emphasized 系列等）；另有 6 个弹簧属性（fast/slow/default × spatial/effects，如 motionSpringFastSpatial damping 0.9/stiffness 1400）。这是 motion token 参数化交付的成熟范式。",
+      "evidence_quote": "Material's curve system also includes 16 duration attributes… motionDurationShort1 50ms … motionDurationMedium2 300ms … motionDurationLong2 500ms … motionDurationExtraLong4 1000ms … motionEasingStandardInterpolator cubic-bezier: 0.2, 0, 0, 1 … motionSpringFastSpatial damping: 0.9, stiffness: 1400 … motionSpringSlowSpatial damping: 0.9, stiffness: 300",
+      "source_url": "https://github.com/material-components/material-components-android/blob/master/docs/theming/Motion.md",
+      "source_title": "Motion - Material Components for Android",
+      "confidence": 0.97
+    },
+    {
+      "id": 15,
+      "topic": "Material时长-面积法则",
+      "claim": "Material 明确『时长应随动画面积/移动距离增大而增大』的标尺规则，并把导航转场归纳为 4 种可复用模式：Container transform（容器变换）、Shared axis（共享轴向）、Fade through（渐隐渐现）、Fade（淡入淡出）——与鸿蒙一镜到底/层级转场可相互对照。",
+      "evidence_quote": "In general, duration should increase as the area/traversal of an animation increases. … Material provides a set of transition patterns… 1. Container transform 2. Shared axis 3. Fade through 4. Fade",
+      "source_url": "https://github.com/material-components/material-components-android/blob/master/docs/theming/Motion.md",
+      "source_title": "Motion - Material Components for Android",
+      "confidence": 0.95
+    },
+    {
+      "id": 16,
+      "topic": "Apple HIG Motion",
+      "claim": "Apple HIG 动效四原则：审慎使用（不为动效而动效）、真实可信（运动须符合物理直觉，滑入的视图应能反向滑出）、与系统一致（自定义动效应与内置动效可比）、可选（开启减弱动态效果时应用必须最小化或消除动画）——验收 checklist 应包含 reduce motion 用例。",
+      "evidence_quote": "Use animation and motion effects judiciously. Don't use animation for the sake of using animation. … Strive for realism and credibility. … If someone reveals a view by sliding it down from the top of the screen, for example, they should be able dismiss the view by sliding it back up. … Use consistent animation. … Make animations optional. When the option to reduce motion is enabled in accessibility preferences, your app should minimize or eliminate application animations.",
+      "source_url": "https://web.archive.org/web/20220125034113/https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/animation/",
+      "source_title": "Animation - Visual Design - iOS - Human Interface Guidelines (Wayback 2022 快照)",
+      "confidence": 0.9
+    },
+    {
+      "id": 17,
+      "topic": "IBM Carbon motion",
+      "claim": "IBM Carbon 把动效分为 productive（高效克制，用于微交互）与 expressive（表现力，保留给重要时刻）双风格；给出 6 个静态时长 token：fast-01 70ms、fast-02 110ms、moderate-01 150ms、moderate-02 240ms、slow-01 400ms、slow-02 700ms；其验收 checklist 明确『微交互时长应落在 90–120ms 静态区间』，并要求评估动效是否有目的、是否不喧宾夺主。",
+      "evidence_quote": "Carbon recognizes different types of moments… two styles of motion—productive motion, and expressive motion… duration-fast-01 70ms / duration-fast-02 110ms / duration-moderate-01 150ms / duration-moderate-02 240ms / duration-slow-01 400ms / duration-slow-02 700ms … Do micro-interactions fall within a static duration ranging from 90–120 ms? … The best interface motion may go unnoticed",
+      "source_url": "https://github.com/carbon-design-system/carbon-website/blob/main/src/pages/elements/motion/overview.mdx",
+      "source_title": "Motion - Carbon Design System (carbon-website 源文件)",
+      "confidence": 0.95
+    },
+    {
+      "id": 18,
+      "topic": "Figma Smart Animate",
+      "claim": "Figma Smart Animate 通过图层名+层级匹配识别帧间差异并自动补间，支持 Scale/Position/Opacity/Rotation/Fill 五类属性，可设置 Easing 与 Duration；适合快速搭建可点击流转原型（loading、视差、手势、开关、展开收起、下拉刷新），但本质是帧间过渡，阴影/形变等不支持，产物不是生产参数。",
+      "evidence_quote": "Smart animate looks for matching layers, recognizes differences, and animates layers between frames in a prototype. … Use Smart animate to replicate: Loading sequences, Parallax scrolling, Touch gestures… Sliders, Toggles and Switches… Pull to refresh … Figma does not support smart animate for layers with drop shadow and inner shadow effects, or for moving between shapes.",
+      "source_url": "https://help.figma.com/hc/en-us/articles/360039818874-Smart-animate-layers-between-frames",
+      "source_title": "Smart animate layers between frames – Figma Help Center",
+      "confidence": 0.95
+    },
+    {
+      "id": 19,
+      "topic": "Figma Motion（新工具）",
+      "claim": "Figma 已推出独立产品 Figma Motion（2025-2026 新产品线），定位『创建精确、可投入生产的动画』，具备时间轴、关键帧、缓动调整、锚点、运动路径、路径修剪(stroke trim)等专业动画能力——高保真动效设计正从 AE 外循环回归设计工具内闭环。",
+      "evidence_quote": "Figma Motion — New — Create precise, production-ready animations … Use the Figma Motion timeline … Add, select, and delete keyframes … Adjust an animation's easing … Edit an object's motion path … Animate strokes with path trim",
+      "source_url": "https://help.figma.com/hc/en-us/categories/41274596092695-Figma-Motion",
+      "source_title": "Figma Motion – Figma Help Center",
+      "confidence": 0.9
+    },
+    {
+      "id": 20,
+      "topic": "Rive：无交付原型",
+      "claim": "Rive 代表『原型即生产』路线：编辑器中设计、动画、状态机交互与数据绑定，经运行时直接发布到 app/游戏/网站——官方明示『无 mockup、无原型、无交付(handoff)，产物即真品』，消除了设计→开发的动效翻译损耗，是 throwaway 原型与生产代码取舍的另一极。",
+      "evidence_quote": "Rive is where designers, animators, and developers build interactive experiences. Design, animate, and code in one place. What you build in the editor is what ships in your app, game, or website. No mockups, no prototypes, no handoff. The real thing.",
+      "source_url": "https://rive.app/docs/getting-started/introduction",
+      "source_title": "Introduction - Rive Docs",
+      "confidence": 0.95
+    },
+    {
+      "id": 21,
+      "topic": "微交互理论",
+      "claim": "微交互（Dan Saffer 2014《Microinteractions》提出）= 触发-反馈对：触发可以是用户操作或系统状态变化，反馈是小型、高度情境化的界面变化；其价值在于传达系统状态、防止错误、传递品牌。工程落地含义：每个微交互应可标注为(trigger, feedback)对并映射到控件状态，而非笼统的『加动效』。",
+      "evidence_quote": "Definition: Microinteractions are trigger-feedback pairs in which (1) the trigger can be a user action or an alteration in the system's state; (2) the feedback is a narrowly targeted response to the trigger and is communicated through small, highly contextual (usually visual) changes in the user interface. … In 2014, Dan Saffer published the book Microinteractions… Microinteractions convey system status, support error prevention, and communicate brand.",
+      "source_url": "https://www.nngroup.com/articles/microinteractions/",
+      "source_title": "Microinteractions in User Experience - Nielsen Norman Group",
+      "confidence": 0.95
+    }
+  ],
+  "source_urls": [
+    "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-design-principles.md",
+    "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-attributes.md",
+    "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/animation-overview.md",
+    "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/transition-animation.md",
+    "https://github.com/openharmony/docs/blob/master/zh-cn/design/ux-design/gesture-animation.md",
+    "https://github.com/openharmony/docs/blob/master/zh-cn/application-dev/reference/apis-arkui/js-apis-curve.md",
+    "https://consumer.huawei.com/cn/harmonyos-next/",
+    "https://developer.huawei.com/consumer/cn/design/",
+    "https://github.com/dososo/harmonyos-design",
+    "https://raw.githubusercontent.com/dososo/harmonyos-design/main/rules/harmony-design-rules.yaml",
+    "https://raw.githubusercontent.com/dososo/harmonyos-design/main/rules/sources.yaml",
+    "https://github.com/material-components/material-components-android/blob/master/docs/theming/Motion.md",
+    "https://web.archive.org/web/20220125034113/https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/animation/",
+    "https://github.com/carbon-design-system/carbon-website/blob/main/src/pages/elements/motion/overview.mdx",
+    "https://help.figma.com/hc/en-us/articles/360039818874-Smart-animate-layers-between-frames",
+    "https://help.figma.com/hc/en-us/categories/41274596092695-Figma-Motion",
+    "https://rive.app/docs/getting-started/introduction",
+    "https://www.nngroup.com/articles/microinteractions/"
+  ],
+  "gaps_and_limitations": [
+    "web_search 工具不可用（无 API key），全部证据通过 web_fetch 直接抓取官方文档/GitHub 源文件获得；Bing 中文搜索返回结果质量差（大量无关结果），DuckDuckGo 触发人机验证。",
+    "『引力透镜』：华为 HarmonyOS NEXT 设计语言中的特效概念，未能抓到含该词的官方静态可引页面（developer.huawei.com 设计站点为 JS 壳），仅有 consumer.huawei.com 的物理渲染引擎官方表述佐证。建议父代理如需该概念细节，人工查阅 HarmonyOS 设计官网或 HDC 演讲。",
+    "ProtoPie（protopie.io 为 JS 壳、docs/help 子域 404）、Principle、After Effects、Origami、Zeplin、蓝湖、即时设计、MasterGo、墨刀：本轮未获得可引用的静态页面证据；如需覆盖，可用各自帮助中心/Wayback 补抓。",
+    "Apple HIG 引用自 2022-01 Wayback 快照（现行 HIG Motion 页面为 JS 渲染无法直接抽取），原则性内容至今稳定，但页面结构已改版为 foundations/motion。",
+    "OpenHarmony UX 设计规范与华为 HarmonyOS Design 商业规范同源但不完全等同（OpenHarmony 为开源版本），引用时建议标注版本与核验日期。"
+  ]
+}

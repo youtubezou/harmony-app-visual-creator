@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "like-burst-component",
+  "prompt": "我要在鸿蒙应用里做一个短视频风格的「点赞爆发动效」：点击爱心按钮后，红心粒子从按钮处喷发飘散并淡出。用最新的 HarmonyOS API 写一个完整可复用的 ArkTS 组件，告诉我怎么集成到现有页面。",
+  "assertions": [
+    "produces-reusable-component: 产出独立的可复用 .ets 组件文件（含 @Component struct 声明）",
+    "uses-current-api-no-deprecated: 不使用已废弃 API（全局 animateTo、animator.create、ParticleSystem、pageTransition、TransitionOptions）",
+    "has-integration-guide: 附集成说明（如何引入现有页面的步骤，Markdown 文档或详细注释）",
+    "evidence-of-api-verification: 有联网核实最新 API 的行为证据（交付物或报告中注明核实的官方文档来源）",
+    "params-extracted-as-constants: 动画参数（时长、数量、颜色等）提取为可配置常量而非散落硬编码"
+  ]
+}
