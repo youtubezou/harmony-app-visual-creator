@@ -4,7 +4,47 @@
 
 ## 信息源（按采信优先级）
 
-### 1. OpenHarmony 官方文档仓库（首选，机器可读）
+### 0. 本地 SDK 声明文件（有 SDK 时是最高优先级源）
+
+HarmonyOS SDK 自带的 API 声明文件是与**实际编译版本精确匹配**的一手事实：
+JSDoc/Hdoc 注释里的 `@since`、`@deprecated`、`@useinstead`、`@syscap` 标注就是编译器看到的世界。
+离线、零延迟、版本绝对对齐——**装了 SDK 就先查它，联网源用于补充示例与更新版本前瞻**。
+
+**探测 SDK 位置**（版本间布局有差异，动态探测，不要背路径）：
+
+```bash
+# 常见根目录（macOS）
+ls ~/Library/OpenHarmony/Sdk 2>/dev/null
+ls ~/Library/Huawei/Sdk 2>/dev/null
+ls "/Applications/DevEco-Studio.app/Contents/sdk" 2>/dev/null
+# 兜底：全盘找声明文件（macOS Spotlight 最快）
+mdfind -name "animator" 2>/dev/null | grep -i "ets/api" | head -3
+# 或
+find ~ -maxdepth 8 -type d -name "api" -path "*ets*" 2>/dev/null | head -3
+```
+
+**典型结构**（探测到 SDK 根目录后确认）：
+
+```
+<SDK>/<api版本>/ets/api/                        ArkTS 声明（@ohos.animator.d.ts 等，含 Kit 导出）
+<SDK>/<api版本>/native/sysroot/usr/include/    NDK 头文件（XComponent/EGL/GLES 等 .h）
+```
+
+**用法**：
+
+```bash
+# 找 API 声明位置
+grep -rln "animateTo" <SDK根>/<版本>/ets/api/ | head -5
+# 读 JSDoc：@deprecated 会写明替代接口，@since 是起始版本
+grep -B5 -A10 "createAnimator" <找到的.d.ts> | head -40
+# NDK 侧（XComponent 等）直接读头文件注释
+grep -B3 -A15 "OH_NativeXComponent" <SDK根>/<版本>/native/sysroot/usr/include/**/*.h | head -40
+```
+
+**采信规则**：SDK 声明与网上文档冲突时，**以 SDK 为准**（它决定编译成败）；
+SDK 里没有的新接口（更高版本），才去 gitee master / 华为文档核实后决定是否在工程中声明更高的 compileSdk。
+
+### 1. OpenHarmony 官方文档仓库（首选联网源，机器可读）
 
 纯 Markdown 文档，agent 可直接获取全文，是核实 API 的最佳来源。
 
@@ -57,6 +97,7 @@ ui/arkts-animation-smoothing.md               动画流畅度
 ui/arkts-drawing-customization-on-canvas.md   Canvas 自绘
 ui/arkts-geometric-shape-drawing.md           几何图形绘制（Shape/Path/Circle）
 ui/napi-xcomponent-guidelines.md              XComponent 自定义渲染（native）
+tools/aa-tool.md                              aa 命令（aa start --pi/--ps/--pb/--psn/--wl/--wt/--wh/--ww，已核实）
 reference/apis-arkui/arkui-ts/ts-explicit-animation.md            animateTo 参数（全局版已废弃）
 reference/apis-arkui/arkui-ts/ts-animatorproperty.md              animation 属性
 reference/apis-arkui/arkui-ts/ts-keyframeAnimateTo.md             关键帧动画
@@ -95,6 +136,12 @@ API 参考：https://developer.huawei.com/consumer/cn/doc/harmonyos-references/<
 ### 4. ohpm 三方库中心
 
 `https://ohpm.openharmony.cn` —— Lottie（`@ohos/lottie`）等三方库的版本与用法以这里为准。
+
+### 4.5 hdc 工具
+
+`https://gitee.com/openharmony/developtools_hdc`（README_zh.md，已核实 `hdc install` / `hdc file recv`）。
+`hdc shell` 内的系统命令（aa、snapshot_display、hilog 等）文档在 OpenHarmony docs 仓库
+`application-dev/tools/` 与 `application-dev/dfx/` 目录下，用 Gitee API 列目录找确切文件名。
 
 ### 5. 博客/论坛（仅作线索）
 

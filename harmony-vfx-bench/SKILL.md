@@ -73,14 +73,18 @@ ls /Applications/DevEco-Studio.app 2>/dev/null
 
 ### Step 2 — 联网核实（不可跳过）
 
-对两类事实核实（方法见 **references/search-sources.md**）：
+按 **references/search-sources.md** 的优先级核实两类事实：
 
 1. **视效 API**：按视效类型读对应 reference（下方选型表）了解已核实的陷阱，
-   再对本次要用的具体接口做联网核实（版本、废弃状态、当前写法）。
+   再核实本次要用的具体接口（版本、废弃状态、当前写法）。
 2. **工具链命令**：hdc / aa 命令的确切参数形式（如 `aa start` 的 `--pi/--ps/--pb/--psn`、
    `--wl/--wt/--wh/--ww` 固定窗口、截图命令）。已核实基础：
    `hdc shell aa start -b <bundle> -a <ability> [--pi k v] [--ps k v]`
    （官方文档 `application-dev/tools/aa-tool.md`）。
+
+核实顺序：**本机有 SDK 就先读 SDK 声明文件**（`ets/api/*.d.ts` 与 NDK 头文件的
+`@since`/`@deprecated` 注释与实际编译版本精确对齐，探测与用法见 search-sources.md 第 0 节），
+联网源（gitee 官方文档 → 华为文档 → 官方示例 → 博客）用于补充示例代码与更高版本前瞻。
 
 ### Step 3 — 实现 benchmark app
 
