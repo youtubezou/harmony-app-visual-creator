@@ -1,0 +1,11 @@
+[PASS] same params (dots=500, r=4, seed=20240521) x2 launches -> identical checksums
+       sample: CHECKSUM frame=300 hash=9e479d3e dots=500 radius=4 seed=20240521  ...  CHECKSUM frame=900 hash=7b8514e4 dots=500 radius=4 seed=20240521
+[PASS] same params (dots=100, r=4, seed=20240521) x2 launches -> identical checksums
+       sample: CHECKSUM frame=300 hash=5f3f85cd dots=100 radius=4 seed=20240521  ...  CHECKSUM frame=900 hash=191a644f dots=100 radius=4 seed=20240521
+[PASS] same params (dots=5000, r=2, seed=20240521) x2 launches -> identical checksums
+       sample: CHECKSUM frame=300 hash=1d8d2897 dots=5000 radius=2 seed=20240521  ...  CHECKSUM frame=900 hash=b682348b dots=5000 radius=2 seed=20240521
+[PASS] different seed   -> different checksum (CHECKSUM frame=300 hash=9e479d3e dots=500 radius=4 seed=20240521 vs CHECKSUM frame=300 hash=6a3a1a8c dots=500 radius=4 seed=20240522)
+[PASS] different count  -> different checksum (CHECKSUM frame=300 hash=9e479d3e dots=500 radius=4 seed=20240521 vs CHECKSUM frame=300 hash=aee5a767 dots=501 radius=4 seed=20240521)
+[PASS] different radius -> different checksum (CHECKSUM frame=300 hash=9e479d3e dots=500 radius=4 seed=20240521 vs CHECKSUM frame=300 hash=0169de09 dots=500 radius=5 seed=20240521)
+
+ALL CHECKS PASSED

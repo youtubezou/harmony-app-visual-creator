@@ -1,0 +1,3 @@
+# Obfuscation disabled; keep default rules when enabling.
+-keep-property-name
+-keep-global-name

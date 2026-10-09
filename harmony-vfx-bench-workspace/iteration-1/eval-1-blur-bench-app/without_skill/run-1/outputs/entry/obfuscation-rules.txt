@@ -1,0 +1,2 @@
+# Obfuscation is disabled for this benchmark app.
+# See https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/ide-obfuscation

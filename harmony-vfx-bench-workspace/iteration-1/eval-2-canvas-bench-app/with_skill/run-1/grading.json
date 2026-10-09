@@ -1,0 +1,60 @@
+{
+  "expectations": [
+    {
+      "text": "project-structure-complete: 工程含 Stage 模型必备文件",
+      "passed": true,
+      "evidence": "全部存在"
+    },
+    {
+      "text": "params-via-want-injection: 参数经 Ability Want 注入并传递到页面",
+      "passed": true,
+      "evidence": "want.parameters 解析: True; AppStorage/LocalStorage 传递: True"
+    },
+    {
+      "text": "param-contract-doc: 交付含参数契约表",
+      "passed": true,
+      "evidence": "文档中发现参数契约要素"
+    },
+    {
+      "text": "hilog-param-echo: 统一 tag 的 hilog 参数回显日志",
+      "passed": true,
+      "evidence": "hilog 调用: True; 参数回显标记: True"
+    },
+    {
+      "text": "determinism-measures: 确定性措施（种子/时间步长，无未播种 Math.random）",
+      "passed": true,
+      "evidence": "Math.random: False; 种子/时间步长证据: True"
+    },
+    {
+      "text": "no-deprecated-apis: 不使用已废弃 API",
+      "passed": true,
+      "evidence": "未发现"
+    },
+    {
+      "text": "no-built-in-measurement: app 不内置测量统计逻辑",
+      "passed": true,
+      "evidence": "未发现"
+    },
+    {
+      "text": "verification-chain-doc: 交付含 hdc 验证命令链",
+      "passed": true,
+      "evidence": "编译/安装/启动命令: True; 截图取证: True"
+    },
+    {
+      "text": "uses-canvas-api: 用 CanvasRenderingContext2D 绘制",
+      "passed": true,
+      "evidence": "发现 CanvasRenderingContext2D"
+    },
+    {
+      "text": "fixed-timestep-or-seed: 固定时间步长且随机有种子",
+      "passed": true,
+      "evidence": "固定种子 LCG + 每渲染帧推进 1/60 虚拟秒（与真实帧率解耦）：第 k 帧状态是参数纯函数，契约实质满足且可哈希校验；skill 当前只推荐墙钟步长，迭代2将并列两种模式"
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  }
+}

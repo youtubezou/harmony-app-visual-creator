@@ -1,0 +1,9 @@
+{
+  "name": "canvasbench",
+  "version": "1.0.0",
+  "description": "HarmonyOS Canvas self-drawn load benchmark: N dots in deterministic Brownian motion.",
+  "main": "",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}

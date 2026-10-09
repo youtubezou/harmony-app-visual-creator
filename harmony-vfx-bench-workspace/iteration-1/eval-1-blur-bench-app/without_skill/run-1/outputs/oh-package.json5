@@ -1,0 +1,10 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "vfx_blur_bench",
+  "version": "1.0.0",
+  "description": "HarmonyOS full-screen Gaussian blur benchmark app",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {}
+}

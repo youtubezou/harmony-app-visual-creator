@@ -1,0 +1,11 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "vfxbench_particle_rain",
+  "version": "1.0.0",
+  "description": "HarmonyOS particle rain visual-effect benchmark app (parameter-injectable).",
+  "main": "",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+  }
+}

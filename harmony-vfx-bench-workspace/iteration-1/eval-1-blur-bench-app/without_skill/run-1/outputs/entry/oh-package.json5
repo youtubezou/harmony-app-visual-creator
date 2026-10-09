@@ -1,0 +1,10 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "VfxBlurBench entry module",
+  "main": "",
+  "author": "",
+  "license": "",
+  "type": "module",
+  "dependencies": {}
+}

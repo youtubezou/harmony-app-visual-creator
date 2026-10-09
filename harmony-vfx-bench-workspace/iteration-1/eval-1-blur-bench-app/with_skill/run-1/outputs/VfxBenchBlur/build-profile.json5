@@ -1,0 +1,37 @@
+{
+  "app": {
+    // 真机安装要求 hap 已签名。首次使用请在 DevEco Studio 中：
+    // File → Project Structure → Signing Configs → 勾选 Automatically generate signature
+    // 配置写回此处后，hvigorw 命令行编译即自动带签名。
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

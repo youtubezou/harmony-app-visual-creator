@@ -1,0 +1,9 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Canvas Brownian-motion benchmark entry module.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {}
+}

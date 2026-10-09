@@ -1,0 +1,10 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "vfxbench-blur",
+  "version": "1.0.0",
+  "description": "Atomic VFX benchmark app: fullscreen image + realtime content blur, radius injected via Ability Want.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {}
+}

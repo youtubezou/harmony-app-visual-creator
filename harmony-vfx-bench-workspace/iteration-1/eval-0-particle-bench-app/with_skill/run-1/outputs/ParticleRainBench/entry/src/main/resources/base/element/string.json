@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "粒子雨视效 benchmark 模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "粒子雨视效 benchmark"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "VfxBenchRain"
+    }
+  ]
+}

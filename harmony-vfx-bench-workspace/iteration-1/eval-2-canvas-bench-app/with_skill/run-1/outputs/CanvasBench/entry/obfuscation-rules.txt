@@ -1,0 +1,2 @@
+# Obfuscation is disabled for this benchmark build (see build-profile.json5).
+# Keep the rules file so enabling obfuscation later has a sane baseline.

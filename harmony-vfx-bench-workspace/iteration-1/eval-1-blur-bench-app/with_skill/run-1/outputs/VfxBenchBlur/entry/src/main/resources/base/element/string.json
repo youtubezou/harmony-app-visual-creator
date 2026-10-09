@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Atomic VFX benchmark module: content blur radius sweep"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "VfxBenchBlur entry ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "VfxBenchBlur"
+    }
+  ]
+}

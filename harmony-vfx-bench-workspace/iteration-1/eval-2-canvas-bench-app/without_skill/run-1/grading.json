@@ -1,0 +1,60 @@
+{
+  "expectations": [
+    {
+      "text": "project-structure-complete: 工程含 Stage 模型必备文件",
+      "passed": true,
+      "evidence": "全部存在"
+    },
+    {
+      "text": "params-via-want-injection: 参数经 Ability Want 注入并传递到页面",
+      "passed": true,
+      "evidence": "want.parameters 解析: True; AppStorage/LocalStorage 传递: True"
+    },
+    {
+      "text": "param-contract-doc: 交付含参数契约表",
+      "passed": true,
+      "evidence": "文档中发现参数契约要素"
+    },
+    {
+      "text": "hilog-param-echo: 统一 tag 的 hilog 参数回显日志",
+      "passed": false,
+      "evidence": "hilog 调用: True; 参数回显标记: False"
+    },
+    {
+      "text": "determinism-measures: 确定性措施（种子/时间步长，无未播种 Math.random）",
+      "passed": true,
+      "evidence": "Math.random: False; 种子/时间步长证据: True"
+    },
+    {
+      "text": "no-deprecated-apis: 不使用已废弃 API",
+      "passed": true,
+      "evidence": "未发现"
+    },
+    {
+      "text": "no-built-in-measurement: app 不内置测量统计逻辑",
+      "passed": false,
+      "evidence": "疑似内置测量: ['fps calculation']"
+    },
+    {
+      "text": "verification-chain-doc: 交付含 hdc 验证命令链",
+      "passed": false,
+      "evidence": "编译/安装/启动命令: False; 截图取证: False"
+    },
+    {
+      "text": "uses-canvas-api: 用 CanvasRenderingContext2D 绘制",
+      "passed": true,
+      "evidence": "发现 CanvasRenderingContext2D"
+    },
+    {
+      "text": "fixed-timestep-or-seed: 固定时间步长且随机有种子",
+      "passed": false,
+      "evidence": "有固定种子，但用帧计数步进而非技能推荐的墙钟时间戳——确定性强但牺牲真实运动速度（帧率下降表现为变慢而非掉帧）；迭代2将在 skill 中并列两种模式的取舍"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 4,
+    "total": 10,
+    "pass_rate": 0.6
+  }
+}

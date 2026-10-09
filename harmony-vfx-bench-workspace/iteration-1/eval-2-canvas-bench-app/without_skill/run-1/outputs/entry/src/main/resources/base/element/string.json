@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Canvas self-drawn load benchmark"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "N dots in deterministic Brownian motion on Canvas"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "CanvasBench"
+    }
+  ]
+}

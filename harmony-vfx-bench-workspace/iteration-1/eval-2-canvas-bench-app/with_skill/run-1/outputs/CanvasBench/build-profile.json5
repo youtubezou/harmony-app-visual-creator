@@ -1,0 +1,38 @@
+{
+  "app": {
+    // 签名：请在 DevEco Studio 中打开本工程后
+    // File → Project Structure → Signing Configs → 勾选 Automatically generate signature，
+    // IDE 会自动在下方 signingConfigs 中写入签名配置，并在 product 上引用 "default"。
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "compileSdkVersion": "5.0.0(12)",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
