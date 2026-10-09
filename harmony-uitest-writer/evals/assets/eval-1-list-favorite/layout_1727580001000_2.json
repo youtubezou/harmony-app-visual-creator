@@ -1,0 +1,8 @@
+{
+  "attributes": {"id": "", "type": "root", "text": "", "bounds": "[0,0][360,780]", "hierarchy": "ROOT"},
+  "children": [
+    {"attributes": {"id": "tv_song_title", "type": "Text", "text": "夜曲", "bounds": "[20,40][340,80]", "hierarchy": "ROOT,0"}, "children": []},
+    {"attributes": {"id": "btn_play_pause", "type": "Button", "text": "暂停", "bounds": "[150,640][210,700]", "hierarchy": "ROOT,2,0"}, "children": []},
+    {"attributes": {"id": "", "type": "Image", "text": "", "bounds": "[300,700][340,740]", "hierarchy": "ROOT,2,1,0"}, "children": []}
+  ]
+}

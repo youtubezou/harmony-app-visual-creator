@@ -1,0 +1,45 @@
+{
+  "suite": "购物 App 搜索与列表翻页（由 uiRecord record.csv 还原）",
+  "source": "harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv",
+  "app": { "bundle": "com.example.shop", "ability": "com.example.shop.EntryAbility" },
+  "global_notes": [
+    "搜索关键词在录制中缺失（仅有对搜索框的点击、无输入事件），用例中以「待确认」标注，执行前需人工补全。",
+    "无布局快照，所有页面内容断言均为保守项，建议补抓 dumpLayout 后增强。",
+    "本环境无真机/hdc，以下用例未实际执行验证。"
+  ],
+  "cases": [
+    {
+      "id": "TC-SEARCH-001",
+      "title": "点击搜索框并输入关键词触发搜索",
+      "priority": "P0",
+      "preconditions": "App 已安装并启动至首页，搜索框 search_input 可见。",
+      "steps": [
+        { "no": 1, "action": "点击 id 为 search_input 的搜索输入框", "source_event": "record.csv 第 1 条（click @ (180,180)）" },
+        { "no": 2, "action": "在搜索框中输入关键词 SEARCH_KEYWORD（值「待确认」，录制缺失，禁止编造）", "source_event": "无（录制缺口，人工补充步骤）" },
+        { "no": 3, "action": "触发搜索（点击输入法搜索键/回车）", "source_event": "无（录制缺口，推断的闭环步骤）" }
+      ],
+      "expected": [
+        "搜索框成功获焦并显示输入的关键词文本；",
+        "搜索触发后进入/刷新搜索结果列表；",
+        "【待确认】搜索结果与关键词相关——无布局快照，需补 dumpLayout 或人工指定预期。"
+      ],
+      "gaps": ["search_keyword_missing"]
+    },
+    {
+      "id": "TC-SEARCH-002",
+      "title": "搜索结果列表向上抛滑翻页",
+      "priority": "P0",
+      "preconditions": "TC-SEARCH-001 完成，搜索结果列表已展示且存在多页数据。",
+      "steps": [
+        { "no": 1, "action": "在列表区域从 (180,700) 向上抛滑至 (180,260)，速度约 2400", "source_event": "record.csv 第 2 条（fling, direction.Y=-1, velo=2400）" }
+      ],
+      "expected": [
+        "列表向上滚动并加载/展示后续页商品；",
+        "滚动结束后列表未崩溃、未白屏；",
+        "【待确认】滚动后首项内容发生变化——无布局快照，无法给出具体断言目标，需补抓翻页前后 dumpLayout 对比。"
+      ],
+      "gaps": ["no_layout_snapshot", "list_selector_no_id"],
+      "selector_risk": "目标 List 无 id，脚本以 ON.type('List') 兜底定位；若页面存在多个 List 可能误匹配，建议开发补充唯一 id 或使用更精确的层级定位。"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-list-favorite",
+  "prompt": "手头有一份鸿蒙音乐 App 的操作录制（uiRecord 产物，在 harmony-uitest-writer/evals/assets/eval-1-list-favorite/）：用户在歌单列表上滑了一下，点了一首「夜曲」进播放页，然后点了右下角一个图标（应该是收藏）。帮我生成对应的 Hypium 测试用例和 .ets 脚本。设备现在不在手边，没法真机验证。",
+  "assertions": [
+    "swipe-preserved-with-coords: 时间线保留滑动操作及起止坐标（180,700 → 180,300）",
+    "weak-selector-flagged: 无 id/text 的 Image 收藏按钮被标记为高风险选择器，并给出收窄方案（within/索引/人工确认），不假装它有 id",
+    "assertion-from-layout: 播放页断言使用布局快照中真实存在的元素（如 ON.id(\"btn_play_pause\") 或 text 夜曲）",
+    "no-fake-device-verification: 不声称已在真机上回放通过（无设备场景），并说明验证待补",
+    "ets-uses-official-skeleton: .ets 使用 '@ohos/hypium' + '@kit.TestKit' 官方骨架"
+  ]
+}

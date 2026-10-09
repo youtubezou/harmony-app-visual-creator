@@ -1,0 +1,189 @@
+{
+  "source": {
+    "record_csv": "harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv",
+    "video": "无（同事未提供同步录屏）",
+    "captured_at": "未知（录制文件未包含采集时间）",
+    "device": "未知（录制文件未包含设备信息）",
+    "bundle": "com.example.shop",
+    "ability": "com.example.shop.EntryAbility",
+    "format_note": "带表头 CSV（fingerList 单元格内嵌 JSON），已用 skill 自带 scripts/parse_uirecord.py 解析为 timeline.json（2 条事件）",
+    "gaps": [
+      "缺口1：uiRecord 不记录文本输入——搜索关键词未知，用例中以 {{SEARCH_KEYWORD}} 占位，禁止臆造，执行前必须向同事确认或查同步录屏后替换",
+      "缺口2：录制中没有“提交搜索”事件（回车键/搜索按钮均未出现）——从点击输入框直接跳到列表抛滑，提交方式系假设（按回车），需真机确认",
+      "缺口3：录制未带 -l 选项，无 layout_*.json 快照——所有页面断言均为弱断言，需真机 dumpLayout 后强化",
+      "缺口4：本环境无 hdc/真机——脚本未做回放验证"
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-SEARCH-001",
+      "title": "搜索商品后抛滑翻页浏览结果列表",
+      "priority": "P0",
+      "kind": "recorded",
+      "preconditions": [
+        "已安装被测应用 com.example.shop（EntryAbility）",
+        "已向同事确认录制时的搜索关键词并替换 {{SEARCH_KEYWORD}}（当前未知，见缺口1）",
+        "已确认真机上搜索的提交方式（当前假设为回车，见缺口2）"
+      ],
+      "steps": [
+        {
+          "no": 1,
+          "action": "launch",
+          "target": { "bundle": "com.example.shop", "ability": "EntryAbility" },
+          "expected": "应用启动，进入首页，顶部 Ability 为 EntryAbility",
+          "evidence": { "note": "launch 为测试框架固定前置步骤，record.csv 未记录" }
+        },
+        {
+          "no": 2,
+          "action": "click",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "selector_risk": "low",
+          "expected": "搜索框获得焦点，弹出输入法",
+          "evidence": { "record_seq": 1, "note": "id 来自 record.csv W1_ID 字段" }
+        },
+        {
+          "no": 3,
+          "action": "input",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "value": "{{SEARCH_KEYWORD}}",
+          "expected": "搜索框显示已输入的关键词",
+          "evidence": { "record_seq": 1, "note": "uiRecord 不录输入值；同事未告知关键词，此处为占位符，禁止臆造，执行前必须替换（缺口1）" }
+        },
+        {
+          "no": 4,
+          "action": "keyEvent",
+          "target": { "key": "KEYCODE_ENTER" },
+          "expected": "提交搜索，页面加载结果列表（出现 List 控件）",
+          "evidence": { "note": "⚠️ 假设步骤：录制中无提交事件（缺口2）。若实际为点击“搜索”按钮，需改为 click 并用真机 dumpLayout 确认按钮选择器" }
+        },
+        {
+          "no": 5,
+          "action": "fling",
+          "target": {
+            "selector": "ON.type(\"List\")",
+            "widget_type": "List",
+            "from": { "x": 180, "y": 700 },
+            "to": { "x": 180, "y": 260 },
+            "stepLen": 12,
+            "speed": 2400
+          },
+          "selector_risk": "high",
+          "expected": "列表向上滚动，加载/展示更多商品",
+          "evidence": { "record_seq": 2, "note": "List 无 id/text，type 选择器可能命中多个控件（录制 bounds=[0,220][360,780]，hier=ROOT,2），需 .within(...) 收窄并人工确认；坐标与速度来自 record.csv，分辨率高相关" }
+        },
+        {
+          "no": 6,
+          "action": "assert",
+          "target": { "selector": "ON.type(\"List\")", "property": "exist", "value": "true" },
+          "expected": "抛滑后列表控件仍存在（弱断言；无 layout 快照，无法断言具体商品项，需真机 dumpLayout 后强化为“首项内容变化/新商品出现”）",
+          "evidence": { "record_seq": 2, "note": "缺口3：录制无 -l 快照，断言强度受限" }
+        }
+      ]
+    },
+    {
+      "id": "TC-SEARCH-002",
+      "title": "空关键词直接提交搜索（负向）",
+      "priority": "P1",
+      "kind": "derived",
+      "derivation": "由 seq1 命中的 TextInput 推导的常见负向路径：不输入任何内容直接提交。录制未覆盖；预期行为未知（按钮置灰 / Toast 提示 / 搜索全部），未经录屏验证，真机确认前仅做“应用不崩溃”冒烟断言",
+      "preconditions": ["已安装被测应用 com.example.shop"],
+      "steps": [
+        {
+          "no": 1,
+          "action": "launch",
+          "target": { "bundle": "com.example.shop", "ability": "EntryAbility" },
+          "expected": "应用启动进入首页"
+        },
+        {
+          "no": 2,
+          "action": "click",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "selector_risk": "low",
+          "expected": "搜索框获得焦点"
+        },
+        {
+          "no": 3,
+          "action": "keyEvent",
+          "target": { "key": "KEYCODE_ENTER" },
+          "expected": "TODO(真机确认)：空关键词时应用的预期行为（Toast/置灰/无响应/搜索全部）——用 dumpLayout 取证后替换为具体断言",
+          "evidence": { "note": "推导用例，未经录屏验证" }
+        },
+        {
+          "no": 4,
+          "action": "assert",
+          "target": { "property": "topAbility", "value": "EntryAbility" },
+          "expected": "保守断言：提交空关键词后应用未崩溃，仍在 EntryAbility"
+        }
+      ]
+    },
+    {
+      "id": "TC-SEARCH-003",
+      "title": "搜索无匹配商品的关键词（负向）",
+      "priority": "P1",
+      "kind": "derived",
+      "derivation": "由搜索主流程推导的空结果路径：输入几乎不可能命中的关键词应展示空态。录制未覆盖；空态控件选择器未知，需真机 dumpLayout 确认后补断言",
+      "preconditions": ["已安装被测应用 com.example.shop"],
+      "steps": [
+        {
+          "no": 1,
+          "action": "launch",
+          "target": { "bundle": "com.example.shop", "ability": "EntryAbility" },
+          "expected": "应用启动进入首页"
+        },
+        {
+          "no": 2,
+          "action": "click",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "selector_risk": "low",
+          "expected": "搜索框获得焦点"
+        },
+        {
+          "no": 3,
+          "action": "input",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "value": "zzzz_no_such_item_99999",
+          "expected": "搜索框显示输入内容",
+          "evidence": { "note": "该关键词为推导用例自行设计的测试输入（非录制数据），选择“几乎不可能有结果”的值" }
+        },
+        {
+          "no": 4,
+          "action": "keyEvent",
+          "target": { "key": "KEYCODE_ENTER" },
+          "expected": "TODO(真机确认)：出现空态提示（具体控件 text/id 需 dumpLayout 取证后替换，如 ON.text(\"暂无相关商品\")）"
+        },
+        {
+          "no": 5,
+          "action": "assert",
+          "target": { "property": "topAbility", "value": "EntryAbility" },
+          "expected": "保守断言：搜索无结果时应用未崩溃，仍在 EntryAbility"
+        }
+      ]
+    },
+    {
+      "id": "TC-SEARCH-004",
+      "title": "超长关键词输入边界（maxLength）",
+      "priority": "P2",
+      "kind": "derived",
+      "derivation": "TextInput 通常存在 maxLength 上限。无 layout 快照（-a 全量属性）无法读取实际上限，需真机执行 dumpLayout -a 确认 search_input 的 maxLength 后生成“超长截断/正常拒绝”断言；当前仅记录为待验证边界用例，未生成可执行脚本",
+      "preconditions": [
+        "已安装被测应用 com.example.shop",
+        "已通过 dumpLayout -a 获取 search_input 的 maxLength（当前未知）"
+      ],
+      "steps": [
+        {
+          "no": 1,
+          "action": "launch",
+          "target": { "bundle": "com.example.shop", "ability": "EntryAbility" },
+          "expected": "应用启动进入首页"
+        },
+        {
+          "no": 2,
+          "action": "input",
+          "target": { "selector": "ON.id(\"search_input\")", "widget_type": "TextInput" },
+          "value": "{{长度=maxLength+1 的关键词，待确认上限后生成}}",
+          "expected": "TODO(真机确认)：输入被截断到 maxLength 或超出部分被拒绝；以 getText() 长度断言为准"
+        }
+      ]
+    }
+  ]
+}

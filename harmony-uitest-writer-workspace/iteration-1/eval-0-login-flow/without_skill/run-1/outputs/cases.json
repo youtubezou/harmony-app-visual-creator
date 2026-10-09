@@ -1,0 +1,205 @@
+{
+  "suite": "音乐 App 登录流程",
+  "bundleName": "com.example.music",
+  "abilityName": "com.example.music.EntryAbility",
+  "source": {
+    "record": "harmony-uitest-writer/evals/assets/eval-0-login-flow/record.csv",
+    "layoutSnapshot": "harmony-uitest-writer/evals/assets/eval-0-login-flow/layout_1727580000000_3.json",
+    "captureTime": "2024-09-29T02:00:00Z（取自布局快照文件名时间戳 1727580000000；record.csv 本身无逐事件时间戳）",
+    "tool": "hdc shell uitest uiRecord record -l"
+  },
+  "globalNotes": [
+    "uiRecord 仅记录了 3 次 click，未捕获软键盘输入；inputText 步骤为推断补全（source=inferred），输入值由录制者提供。",
+    "选择器策略：id 优先（录制数据含稳定控件 id），坐标/bounds/hierarchy 仅作 fallback 存档，不用于脚本。",
+    "本环境无 hdc/真机，以下用例与脚本均未回放验证。"
+  ],
+  "cases": [
+    {
+      "id": "TC-LOGIN-001",
+      "kind": "recorded",
+      "title": "输入正确账号密码，登录成功并进入首页",
+      "priority": "P0",
+      "preconditions": [
+        "设备已安装 com.example.music 并可正常启动 EntryAbility",
+        "当前为未登录状态，登录页可见 account_input / password_input / btn_login"
+      ],
+      "testData": { "account": "test@example.com", "password": "Passw0rd" },
+      "steps": [
+        {
+          "seq": 1,
+          "action": "click",
+          "target": { "by": "id", "value": "account_input" },
+          "input": null,
+          "expected": "账号输入框获得焦点，可输入文本",
+          "source": "recorded"
+        },
+        {
+          "seq": 2,
+          "action": "inputText",
+          "target": { "by": "id", "value": "account_input" },
+          "input": "test@example.com",
+          "expected": "账号输入框内容变为 test@example.com",
+          "source": "inferred",
+          "derivation": "uiRecord 不捕获键盘输入；录制者确认录制时输入了该账号"
+        },
+        {
+          "seq": 3,
+          "action": "click",
+          "target": { "by": "id", "value": "password_input" },
+          "input": null,
+          "expected": "密码输入框获得焦点，可输入文本",
+          "source": "recorded"
+        },
+        {
+          "seq": 4,
+          "action": "inputText",
+          "target": { "by": "id", "value": "password_input" },
+          "input": "Passw0rd",
+          "expected": "密码输入框接收输入（显示为掩码字符）",
+          "source": "inferred",
+          "derivation": "uiRecord 不捕获键盘输入；录制者确认录制时输入了该密码"
+        },
+        {
+          "seq": 5,
+          "action": "click",
+          "target": { "by": "id", "value": "btn_login", "text": "登录" },
+          "input": null,
+          "expected": "触发登录提交，页面开始跳转",
+          "source": "recorded"
+        },
+        {
+          "seq": 6,
+          "action": "waitForIdle",
+          "target": null,
+          "input": null,
+          "expected": "页面跳转与渲染完成（不使用固定时长等待）",
+          "source": "derived",
+          "derivation": "点击登录后需等待导航完成才能断言，等待方式取官方 waitForIdle/waitForComponent"
+        }
+      ],
+      "expected": [
+        "进入首页：存在 id=song_list 的歌曲列表组件",
+        "首页 Tabs 可见「推荐」「我的」文本",
+        "断言依据：layout_1727580000000_3.json（录制第 3 步后的页面快照）"
+      ]
+    },
+    {
+      "id": "TC-LOGIN-002",
+      "kind": "derived",
+      "title": "使用错误密码登录失败，停留在登录页（负向）",
+      "priority": "P1",
+      "derivation": "由 TC-LOGIN-001 推导：保持账号不变、将密码改为错误值，预期登录失败。录制数据仅含成功路径，失败时的 UI 表现（Toast / 错误文案）未知，故断言采用保守策略（仍在登录页），待真机确认失败提示后再细化。",
+      "preconditions": [
+        "设备已安装 com.example.music 并可正常启动 EntryAbility",
+        "当前为未登录状态，登录页可见 account_input / password_input / btn_login"
+      ],
+      "testData": { "account": "test@example.com", "password": "WrongPass1" },
+      "steps": [
+        {
+          "seq": 1,
+          "action": "click",
+          "target": { "by": "id", "value": "account_input" },
+          "input": null,
+          "expected": "账号输入框获得焦点",
+          "source": "derived"
+        },
+        {
+          "seq": 2,
+          "action": "inputText",
+          "target": { "by": "id", "value": "account_input" },
+          "input": "test@example.com",
+          "expected": "账号输入框内容变为 test@example.com",
+          "source": "derived"
+        },
+        {
+          "seq": 3,
+          "action": "click",
+          "target": { "by": "id", "value": "password_input" },
+          "input": null,
+          "expected": "密码输入框获得焦点",
+          "source": "derived"
+        },
+        {
+          "seq": 4,
+          "action": "inputText",
+          "target": { "by": "id", "value": "password_input" },
+          "input": "WrongPass1",
+          "expected": "密码输入框接收输入（掩码显示）",
+          "source": "derived"
+        },
+        {
+          "seq": 5,
+          "action": "click",
+          "target": { "by": "id", "value": "btn_login" },
+          "input": null,
+          "expected": "触发登录提交",
+          "source": "derived"
+        },
+        {
+          "seq": 6,
+          "action": "waitForIdle",
+          "target": null,
+          "input": null,
+          "expected": "登录失败反馈展示完成",
+          "source": "derived"
+        }
+      ],
+      "expected": [
+        "未进入首页：song_list 不存在",
+        "仍停留在登录页：btn_login 仍可见",
+        "待确认：失败提示形式（Toast/内联错误文案）未知，确认后可补充精确断言"
+      ]
+    },
+    {
+      "id": "TC-LOGIN-003",
+      "kind": "derived",
+      "title": "账号为空点击登录，不发起登录（边界）",
+      "priority": "P2",
+      "derivation": "由 TC-LOGIN-001 推导的边界用例：录制流程中账号输入框为必填前置，留空属于最邻近的边界输入。预期 App 侧阻止登录（按钮禁用或提示），具体表现待确认。",
+      "preconditions": [
+        "设备已安装 com.example.music 并可正常启动 EntryAbility",
+        "当前为未登录状态，登录页可见 account_input / password_input / btn_login"
+      ],
+      "testData": { "account": "", "password": "Passw0rd" },
+      "steps": [
+        {
+          "seq": 1,
+          "action": "click",
+          "target": { "by": "id", "value": "password_input" },
+          "input": null,
+          "expected": "密码输入框获得焦点",
+          "source": "derived"
+        },
+        {
+          "seq": 2,
+          "action": "inputText",
+          "target": { "by": "id", "value": "password_input" },
+          "input": "Passw0rd",
+          "expected": "密码输入框接收输入（掩码显示）",
+          "source": "derived"
+        },
+        {
+          "seq": 3,
+          "action": "click",
+          "target": { "by": "id", "value": "btn_login" },
+          "input": null,
+          "expected": "登录不被提交（账号为空被拦截）",
+          "source": "derived"
+        },
+        {
+          "seq": 4,
+          "action": "waitForIdle",
+          "target": null,
+          "input": null,
+          "expected": "页面状态稳定",
+          "source": "derived"
+        }
+      ],
+      "expected": [
+        "未进入首页：song_list 不存在",
+        "仍停留在登录页：account_input / btn_login 可见",
+        "待确认：空账号时的具体拦截方式（按钮禁用/提示文案）未知"
+      ]
+    }
+  ]
+}

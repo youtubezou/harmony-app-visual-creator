@@ -1,0 +1,109 @@
+{
+  "source": {
+    "record_csv": "record.csv",
+    "video": "（未提供）",
+    "captured_at": "未知（layout 快照时间戳 1727580001000，约 2024-09-29）",
+    "device": "未知（录制产物中未含设备信息）",
+    "bundle": "com.example.music"
+  },
+  "cases": [
+    {
+      "id": "TC-FAV-001",
+      "title": "歌单列表上滑后点击「夜曲」进入播放页并收藏",
+      "priority": "P0",
+      "kind": "recorded",
+      "preconditions": ["已安装被测应用 com.example.music", "歌单列表中存在歌曲「夜曲」"],
+      "steps": [
+        {
+          "no": 1,
+          "action": "launch",
+          "target": {"bundle": "com.example.music", "ability": "EntryAbility"},
+          "expected": "应用启动并展示歌单列表页（出现 id=song_list 的 List 控件）",
+          "evidence": {"record_seq": 1, "note": "录制首个事件命中 song_list，说明起始页面即歌单列表页"}
+        },
+        {
+          "no": 2,
+          "action": "swipe",
+          "target": {
+            "selector": "ON.id(\"song_list\")",
+            "selector_risk": "low",
+            "widget_type": "List",
+            "gesture": "自 (180,700) 上滑至 (180,300)，时长约 210ms，离手速度 1200"
+          },
+          "expected": "列表向上滚动，目标歌曲「夜曲」的条目进入可视区域（seq2 随即在 [0,360][360,420] 命中该条目）",
+          "evidence": {"record_seq": 1}
+        },
+        {
+          "no": 3,
+          "action": "click",
+          "target": {
+            "selector": "ON.text(\"夜曲\")",
+            "selector_risk": "medium",
+            "widget_type": "ListItem",
+            "note": "该 ListItem 无 id，text 选择器受文案/多语言影响，存在回归失效风险"
+          },
+          "expected": "进入播放页：出现 id=tv_song_title 且文本为「夜曲」；出现 id=btn_play_pause 且文本为「暂停」（即点击后自动开始播放）",
+          "evidence": {"record_seq": 2, "layout": "layout_1727580001000_2.json"}
+        },
+        {
+          "no": 4,
+          "action": "click",
+          "target": {
+            "selector": "ON.type(\"Image\") 经 bounds≈[300,700][340,740]（hier=ROOT,2,1,0）收窄",
+            "selector_risk": "high",
+            "widget_type": "Image",
+            "note": "弱选择器，需人工确认：该收藏图标无 id/text，type=Image 可能命中多个控件，生成代码时以 bounds 收窄、裸坐标 (320,720) 为最后兜底；建议应用侧补充唯一 id（如 btn_favorite）"
+          },
+          "expected": "收藏图标被点击，歌曲进入已收藏状态",
+          "evidence": {
+            "record_seq": 3,
+            "note": "⚠️ 录制未包含本步之后的 layout 快照，收藏成功后的 UI 表现（图标高亮/Toast 等）无数据佐证，本步预期为推断，须真机验证后补写可靠断言"
+          }
+        }
+      ]
+    },
+    {
+      "id": "TC-FAV-002",
+      "title": "播放页再次点击收藏图标取消收藏",
+      "priority": "P1",
+      "kind": "derived",
+      "derivation": "由 TC-FAV-001 第 4 步推导：收藏图标通常为开关（toggle）型交互，再次点击应取消收藏；录制未覆盖该路径",
+      "preconditions": ["歌曲「夜曲」处于已收藏状态（可先执行 TC-FAV-001）", "当前位于「夜曲」播放页"],
+      "steps": [
+        {
+          "no": 1,
+          "action": "click",
+          "target": {
+            "selector": "ON.type(\"Image\") 经 bounds≈[300,700][340,740] 收窄",
+            "selector_risk": "high",
+            "widget_type": "Image",
+            "note": "弱选择器，需人工确认（同 TC-FAV-001 第 4 步）"
+          },
+          "expected": "收藏状态被取消（图标恢复未收藏样式）",
+          "evidence": {"note": "推导用例，未经录屏验证；具体 UI 表现需真机确认"}
+        }
+      ]
+    },
+    {
+      "id": "TC-PLAY-003",
+      "title": "播放页点击暂停按钮切换播放状态",
+      "priority": "P1",
+      "kind": "derived",
+      "derivation": "由 layout_1727580001000_2.json 推导：btn_play_pause 当前 text=\"暂停\"，说明点击列表歌曲后自动播放；点击该按钮应暂停并使按钮文案切换为「播放」",
+      "preconditions": ["已进入「夜曲」播放页且正在播放（btn_play_pause 显示「暂停」）"],
+      "steps": [
+        {
+          "no": 1,
+          "action": "click",
+          "target": {
+            "selector": "ON.id(\"btn_play_pause\")",
+            "selector_risk": "low",
+            "widget_type": "Button"
+          },
+          "expected": "播放暂停，按钮文案由「暂停」切换为「播放」",
+          "evidence": {"layout": "layout_1727580001000_2.json", "note": "推导用例，未经录屏验证；预期文案「播放」为常识推断，需真机确认"}
+        }
+      ]
+    }
+  ]
+}

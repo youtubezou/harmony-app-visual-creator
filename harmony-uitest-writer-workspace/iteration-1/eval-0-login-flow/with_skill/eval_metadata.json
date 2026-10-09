@@ -1,0 +1,14 @@
+{
+  "eval_id": 0,
+  "eval_name": "eval-0-login-flow",
+  "prompt": "我在鸿蒙音乐 App（包名 com.example.music，EntryAbility）上录了一段登录操作，设备上跑了 `hdc shell uitest uiRecord record -l`，产物在 harmony-uitest-writer/evals/assets/eval-0-login-flow/ 下（record.csv 和 layout 快照）。帮我基于这份录制生成 Hypium 测试用例：先要解析出操作时间线，然后输出结构化用例 JSON，最后生成可以直接放进 ohosTest 里跑的 ArkTS 测试脚本。对了，录制时我输入的账号是 test@example.com，密码是 Passw0rd。",
+  "assertions": [
+    "timeline-parsed: 产出操作时间线，包含 3 个 click 操作且选择器策略为 id（account_input/password_input/btn_login）",
+    "case-json-structured: 用例 JSON 含 id/title/priority/preconditions/steps/expected 字段，每步有 expected 预期",
+    "has-derived-negative-case: 至少一条 kind=derived（或等效标注）的负向/边界用例，并写明推导依据（derivation 或注释）",
+    "ets-uses-official-skeleton: .ets 从 '@ohos/hypium' 导入 describe/it/expect、从 '@kit.TestKit' 导入 Driver/ON，使用 Driver.create() 与 delegator.startAbility",
+    "selectors-from-evidence: .ets 中的选择器只用录制数据里出现过的 id/text（account_input、password_input、btn_login、登录），不臆造控件",
+    "waits-not-sleeps: 等待使用 waitForComponent/waitForIdle，无裸 setTimeout/sleep 等待页面",
+    "input-values-from-user: 账号/密码输入值采用用户提供的 test@example.com/Passw0rd，而非编造"
+  ]
+}

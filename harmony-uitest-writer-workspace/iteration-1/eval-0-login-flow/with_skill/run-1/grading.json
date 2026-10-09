@@ -1,0 +1,52 @@
+{
+  "eval": "eval-0-login-flow",
+  "config": "with_skill",
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 8,
+    "failed": 0,
+    "total": 8
+  },
+  "expectations": [
+    {
+      "text": "timeline-parsed: 产出操作时间线",
+      "passed": true,
+      "evidence": "timeline 解析成功，3 个操作"
+    },
+    {
+      "text": "timeline 3 步 click、id 选择器",
+      "passed": true,
+      "evidence": "timeline 长度=3"
+    },
+    {
+      "text": "input-values-from-user: 采用用户提供的账号密码",
+      "passed": true,
+      "evidence": "在产出中搜索 test@example.com / Passw0rd"
+    },
+    {
+      "text": "has-derived-negative-case: 含推导的负向用例",
+      "passed": true,
+      "evidence": "cases 中搜索 derived/负向/推导/边界 关键词"
+    },
+    {
+      "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' 骨架",
+      "passed": true,
+      "evidence": "检查 import 与 Driver.create"
+    },
+    {
+      "text": "waits-not-sleeps: 无裸 sleep/setTimeout 等待",
+      "passed": true,
+      "evidence": "搜索 setTimeout/sleep；存在 waitFor 视为缓解"
+    },
+    {
+      "text": "selectors-from-evidence: ON.id 选择器全部来自录制数据",
+      "passed": true,
+      "evidence": "使用的 id=['account_input', 'btn_login', 'password_input', 'song_list']；未知 id=[]"
+    },
+    {
+      "text": "case-json-structured: 用例 JSON 结构完整",
+      "passed": true,
+      "evidence": "cases 文件搜索 steps/expected 字段"
+    }
+  ]
+}

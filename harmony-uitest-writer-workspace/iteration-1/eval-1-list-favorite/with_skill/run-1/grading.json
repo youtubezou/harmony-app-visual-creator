@@ -1,0 +1,57 @@
+{
+  "eval": "eval-1-list-favorite",
+  "config": "with_skill",
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 9,
+    "failed": 0,
+    "total": 9
+  },
+  "expectations": [
+    {
+      "text": "timeline-parsed: 产出操作时间线",
+      "passed": true,
+      "evidence": "timeline 解析成功，3 个操作"
+    },
+    {
+      "text": "swipe-preserved-with-coords: 保留滑动及起止坐标",
+      "passed": true,
+      "evidence": "搜索 swipe 与坐标 700/300"
+    },
+    {
+      "text": "weak-selector-flagged: 弱选择器标风险并给收窄方案",
+      "passed": true,
+      "evidence": "搜索 风险/人工确认/within/收窄 关键词"
+    },
+    {
+      "text": "assertion-from-layout: 断言使用布局快照中的元素",
+      "passed": true,
+      "evidence": "搜索 btn_play_pause / 夜曲"
+    },
+    {
+      "text": "no-fake-device-verification: 不声称真机回放通过",
+      "passed": true,
+      "evidence": "搜索虚假验证声明；同时检查是否有未验证说明"
+    },
+    {
+      "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' 骨架",
+      "passed": true,
+      "evidence": "检查 import 与 Driver.create"
+    },
+    {
+      "text": "waits-not-sleeps: 无裸 sleep/setTimeout 等待",
+      "passed": true,
+      "evidence": "搜索 setTimeout/sleep；存在 waitFor 视为缓解"
+    },
+    {
+      "text": "selectors-from-evidence: ON.id 选择器全部来自录制数据",
+      "passed": true,
+      "evidence": "使用的 id=['btn_play_pause', 'song_list', 'tv_song_title']；未知 id=[]"
+    },
+    {
+      "text": "case-json-structured: 用例 JSON 结构完整",
+      "passed": true,
+      "evidence": "cases 文件搜索 steps/expected 字段"
+    }
+  ]
+}

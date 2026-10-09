@@ -1,0 +1,54 @@
+{
+  "skill_name": "harmony-uitest-writer",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "我在鸿蒙音乐 App（包名 com.example.music，EntryAbility）上录了一段登录操作，设备上跑了 `hdc shell uitest uiRecord record -l`，产物在 harmony-uitest-writer/evals/assets/eval-0-login-flow/ 下（record.csv 和 layout 快照）。帮我基于这份录制生成 Hypium 测试用例：先要解析出操作时间线，然后输出结构化用例 JSON，最后生成可以直接放进 ohosTest 里跑的 ArkTS 测试脚本。对了，录制时我输入的账号是 test@example.com，密码是 Passw0rd。",
+      "expected_output": "解析后的操作时间线（3 步点击，选择器均来自录制数据的控件 id）；结构化用例 JSON（正向登录用例 + 至少一条推导的负向用例并标注推导依据）；可执行的 Hypium UiTest .ets 脚本（@ohos/hypium + @kit.TestKit 骨架，ON.id 选择器，waitFor 等待，expect 断言）",
+      "files": [
+        "harmony-uitest-writer/evals/assets/eval-0-login-flow/record.csv",
+        "harmony-uitest-writer/evals/assets/eval-0-login-flow/layout_1727580000000_3.json"
+      ],
+      "assertions": [
+        "timeline-parsed: 产出操作时间线，包含 3 个 click 操作且选择器策略为 id（account_input/password_input/btn_login）",
+        "case-json-structured: 用例 JSON 含 id/title/priority/preconditions/steps/expected 字段，每步有 expected 预期",
+        "has-derived-negative-case: 至少一条 kind=derived（或等效标注）的负向/边界用例，并写明推导依据（derivation 或注释）",
+        "ets-uses-official-skeleton: .ets 从 '@ohos/hypium' 导入 describe/it/expect、从 '@kit.TestKit' 导入 Driver/ON，使用 Driver.create() 与 delegator.startAbility",
+        "selectors-from-evidence: .ets 中的选择器只用录制数据里出现过的 id/text（account_input、password_input、btn_login、登录），不臆造控件",
+        "waits-not-sleeps: 等待使用 waitForComponent/waitForIdle，无裸 setTimeout/sleep 等待页面",
+        "input-values-from-user: 账号/密码输入值采用用户提供的 test@example.com/Passw0rd，而非编造"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "手头有一份鸿蒙音乐 App 的操作录制（uiRecord 产物，在 harmony-uitest-writer/evals/assets/eval-1-list-favorite/）：用户在歌单列表上滑了一下，点了一首「夜曲」进播放页，然后点了右下角一个图标（应该是收藏）。帮我生成对应的 Hypium 测试用例和 .ets 脚本。设备现在不在手边，没法真机验证。",
+      "expected_output": "操作时间线（swipe + 2 个 click）；用例 JSON；.ets 脚本；对无 id/text 的 Image 图标给出弱选择器风险提示与收窄策略；明确说明未真机回放验证",
+      "files": [
+        "harmony-uitest-writer/evals/assets/eval-1-list-favorite/record.csv",
+        "harmony-uitest-writer/evals/assets/eval-1-list-favorite/layout_1727580001000_2.json"
+      ],
+      "assertions": [
+        "swipe-preserved-with-coords: 时间线保留滑动操作及起止坐标（180,700 → 180,300）",
+        "weak-selector-flagged: 无 id/text 的 Image 收藏按钮被标记为高风险选择器，并给出收窄方案（within/索引/人工确认），不假装它有 id",
+        "assertion-from-layout: 播放页断言使用布局快照中真实存在的元素（如 ON.id(\"btn_play_pause\") 或 text 夜曲）",
+        "no-fake-device-verification: 不声称已在真机上回放通过（无设备场景），并说明验证待补",
+        "ets-uses-official-skeleton: .ets 使用 '@ohos/hypium' + '@kit.TestKit' 官方骨架"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "同事给了我一份鸿蒙购物 App 的 uiRecord 录制文件 harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv（他系统版本导出的格式好像带表头）。里面录了搜索商品然后抛滑翻页，但他忘了告诉我搜索框输入了什么关键词。帮我生成测试用例和 Hypium 脚本。",
+      "expected_output": "成功解析带表头 CSV（fingerList 内嵌 JSON）；明确指出文本输入值缺失并向用户提问/在产物中显式标注待确认，而非编造关键词；fling 操作正确映射；无布局快照时说明断言依据受限",
+      "files": [
+        "harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv"
+      ],
+      "assertions": [
+        "csv-header-format-handled: 成功解析带表头 CSV 变体（产出 2 个操作：click + fling）",
+        "input-gap-surfaced: 明确指出 uiRecord 不含文本输入、搜索关键词缺失，向用户提问或在用例中显式标注「待确认」，不编造关键词",
+        "fling-mapped: fling 事件被识别并映射为 Driver 的 fling/swipe 操作",
+        "no-layout-stated: 无布局快照时，说明断言目标缺乏快照依据、需补抓 dumpLayout 或人工指定",
+        "selectors-from-evidence: 选择器仅使用数据中出现的 id（search_input）或对无 id 控件标注风险"
+      ]
+    }
+  ]
+}

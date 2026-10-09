@@ -1,0 +1,66 @@
+{
+  "source": "harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv",
+  "app": {
+    "bundle": "com.example.shop",
+    "ability": "com.example.shop.EntryAbility"
+  },
+  "parse_notes": [
+    "CSV 首行为表头（ABILITY,BUNDLE,CENTER_X,...,fingerList,fingerNumber），已按表头字段解析，共 2 条操作事件。",
+    "duration 单位未在文件中标注，按 uiRecord 常见约定推测为纳秒（30500000ns≈30.5ms、150000000ns≈150ms），未经验证。",
+    "录制中没有任何文本输入（input）事件：搜索框仅被点击，W1_Text 为空，搜索关键词在录制数据中缺失。"
+  ],
+  "events": [
+    {
+      "seq": 1,
+      "op_type": "click",
+      "event_type": "pointer",
+      "point": { "x": 180, "y": 180 },
+      "duration_raw": 30500000,
+      "duration_ms_estimated": 30.5,
+      "target": {
+        "id": "search_input",
+        "type": "TextInput",
+        "text": "",
+        "hier": "ROOT,0,1",
+        "bounds": { "left": 20, "top": 160, "right": 340, "bottom": 200 }
+      },
+      "note": "点击搜索输入框使其获焦。录制未包含随后输入的关键词文本（信息缺口）。"
+    },
+    {
+      "seq": 2,
+      "op_type": "fling",
+      "event_type": "pointer",
+      "velocity": 2400,
+      "direction": { "x": 0, "y": -1 },
+      "start_point": { "x": 180, "y": 700 },
+      "end_point": { "x": 180, "y": 260 },
+      "duration_raw": 150000000,
+      "duration_ms_estimated": 150,
+      "target": {
+        "id": "",
+        "type": "List",
+        "text": "",
+        "hier": "ROOT,2",
+        "bounds": { "left": 0, "top": 220, "right": 360, "bottom": 780 }
+      },
+      "note": "在商品列表上向上快速抛滑（direction.Y=-1，速度 2400），预期触发列表滚动/翻页加载。该 List 无 id，定位存在风险。"
+    }
+  ],
+  "data_gaps": [
+    {
+      "gap": "search_keyword_missing",
+      "detail": "录制只有对 search_input 的点击，没有文本输入事件，无法还原用户实际搜索关键词。",
+      "handling": "用例与脚本中以占位符 SEARCH_KEYWORD = '<TODO_待确认>' 标注，不编造关键词。"
+    },
+    {
+      "gap": "no_layout_snapshot",
+      "detail": "本目录无 dumpLayout 布局快照（对比 eval-0/eval-1 均附带 layout_*.json），翻页后的断言目标缺乏快照依据。",
+      "handling": "断言仅做保守存在性检查，并标注需补抓 dumpLayout 或由人工指定翻页后的预期内容。"
+    },
+    {
+      "gap": "list_selector_no_id",
+      "detail": "列表控件无 id（hier=ROOT,2, type=List）。",
+      "handling": "脚本使用 ON.type('List') 兜底定位，存在匹配到多个列表的风险，已显式标注。"
+    }
+  ]
+}

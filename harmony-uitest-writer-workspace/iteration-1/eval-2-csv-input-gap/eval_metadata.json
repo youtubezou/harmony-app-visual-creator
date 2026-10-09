@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-csv-input-gap",
+  "prompt": "同事给了我一份鸿蒙购物 App 的 uiRecord 录制文件 harmony-uitest-writer/evals/assets/eval-2-csv-input-gap/record.csv（他系统版本导出的格式好像带表头）。里面录了搜索商品然后抛滑翻页，但他忘了告诉我搜索框输入了什么关键词。帮我生成测试用例和 Hypium 脚本。",
+  "assertions": [
+    "csv-header-format-handled: 成功解析带表头 CSV 变体（产出 2 个操作：click + fling）",
+    "input-gap-surfaced: 明确指出 uiRecord 不含文本输入、搜索关键词缺失，向用户提问或在用例中显式标注「待确认」，不编造关键词",
+    "fling-mapped: fling 事件被识别并映射为 Driver 的 fling/swipe 操作",
+    "no-layout-stated: 无布局快照时，说明断言目标缺乏快照依据、需补抓 dumpLayout 或人工指定",
+    "selectors-from-evidence: 选择器仅使用数据中出现的 id（search_input）或对无 id 控件标注风险"
+  ]
+}

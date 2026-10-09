@@ -1,0 +1,433 @@
+{
+  "metadata": {
+    "skill_name": "harmony-uitest-writer",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-10-08T05:45:28Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c3 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "timeline 3 \u6b65 click\u3001id \u9009\u62e9\u5668",
+          "passed": true,
+          "evidence": "timeline \u957f\u5ea6=3"
+        },
+        {
+          "text": "input-values-from-user: \u91c7\u7528\u7528\u6237\u63d0\u4f9b\u7684\u8d26\u53f7\u5bc6\u7801",
+          "passed": true,
+          "evidence": "\u5728\u4ea7\u51fa\u4e2d\u641c\u7d22 test@example.com / Passw0rd"
+        },
+        {
+          "text": "has-derived-negative-case: \u542b\u63a8\u5bfc\u7684\u8d1f\u5411\u7528\u4f8b",
+          "passed": true,
+          "evidence": "cases \u4e2d\u641c\u7d22 derived/\u8d1f\u5411/\u63a8\u5bfc/\u8fb9\u754c \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=['account_input', 'btn_login', 'password_input', 'song_list']\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c3 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "swipe-preserved-with-coords: \u4fdd\u7559\u6ed1\u52a8\u53ca\u8d77\u6b62\u5750\u6807",
+          "passed": true,
+          "evidence": "\u641c\u7d22 swipe \u4e0e\u5750\u6807 700/300"
+        },
+        {
+          "text": "weak-selector-flagged: \u5f31\u9009\u62e9\u5668\u6807\u98ce\u9669\u5e76\u7ed9\u6536\u7a84\u65b9\u6848",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u98ce\u9669/\u4eba\u5de5\u786e\u8ba4/within/\u6536\u7a84 \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "assertion-from-layout: \u65ad\u8a00\u4f7f\u7528\u5e03\u5c40\u5feb\u7167\u4e2d\u7684\u5143\u7d20",
+          "passed": true,
+          "evidence": "\u641c\u7d22 btn_play_pause / \u591c\u66f2"
+        },
+        {
+          "text": "no-fake-device-verification: \u4e0d\u58f0\u79f0\u771f\u673a\u56de\u653e\u901a\u8fc7",
+          "passed": true,
+          "evidence": "\u641c\u7d22\u865a\u5047\u9a8c\u8bc1\u58f0\u660e\uff1b\u540c\u65f6\u68c0\u67e5\u662f\u5426\u6709\u672a\u9a8c\u8bc1\u8bf4\u660e"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=['btn_play_pause', 'song_list', 'tv_song_title']\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c2 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "csv-header-format-handled: \u89e3\u6790\u51fa click+fling \u4e24\u4e2a\u64cd\u4f5c",
+          "passed": true,
+          "evidence": "timeline \u957f\u5ea6=2"
+        },
+        {
+          "text": "input-gap-surfaced: \u6307\u51fa\u8f93\u5165\u5173\u952e\u8bcd\u7f3a\u5931\u5e76\u6807\u6ce8\u5f85\u786e\u8ba4",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u5173\u952e\u8bcd/\u5f85\u786e\u8ba4/\u7f3a\u5931 \u7b49\u5173\u952e\u8bcd"
+        },
+        {
+          "text": "fling-mapped: fling \u88ab\u6620\u5c04\u4e3a fling/swipe \u64cd\u4f5c",
+          "passed": true,
+          "evidence": "\u641c\u7d22 fling"
+        },
+        {
+          "text": "no-layout-stated: \u8bf4\u660e\u65e0\u5e03\u5c40\u5feb\u7167\u5bfc\u81f4\u65ad\u8a00\u4f9d\u636e\u53d7\u9650",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u5e03\u5c40\u5feb\u7167/dumpLayout/\u8865\u6293 \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=['search_input']\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c3 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "timeline 3 \u6b65 click\u3001id \u9009\u62e9\u5668",
+          "passed": true,
+          "evidence": "timeline \u957f\u5ea6=3"
+        },
+        {
+          "text": "input-values-from-user: \u91c7\u7528\u7528\u6237\u63d0\u4f9b\u7684\u8d26\u53f7\u5bc6\u7801",
+          "passed": true,
+          "evidence": "\u5728\u4ea7\u51fa\u4e2d\u641c\u7d22 test@example.com / Passw0rd"
+        },
+        {
+          "text": "has-derived-negative-case: \u542b\u63a8\u5bfc\u7684\u8d1f\u5411\u7528\u4f8b",
+          "passed": true,
+          "evidence": "cases \u4e2d\u641c\u7d22 derived/\u8d1f\u5411/\u63a8\u5bfc/\u8fb9\u754c \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=['account_input', 'btn_login', 'password_input', 'song_list']\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c3 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "swipe-preserved-with-coords: \u4fdd\u7559\u6ed1\u52a8\u53ca\u8d77\u6b62\u5750\u6807",
+          "passed": true,
+          "evidence": "\u641c\u7d22 swipe \u4e0e\u5750\u6807 700/300"
+        },
+        {
+          "text": "weak-selector-flagged: \u5f31\u9009\u62e9\u5668\u6807\u98ce\u9669\u5e76\u7ed9\u6536\u7a84\u65b9\u6848",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u98ce\u9669/\u4eba\u5de5\u786e\u8ba4/within/\u6536\u7a84 \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "assertion-from-layout: \u65ad\u8a00\u4f7f\u7528\u5e03\u5c40\u5feb\u7167\u4e2d\u7684\u5143\u7d20",
+          "passed": true,
+          "evidence": "\u641c\u7d22 btn_play_pause / \u591c\u66f2"
+        },
+        {
+          "text": "no-fake-device-verification: \u4e0d\u58f0\u79f0\u771f\u673a\u56de\u653e\u901a\u8fc7",
+          "passed": true,
+          "evidence": "\u641c\u7d22\u865a\u5047\u9a8c\u8bc1\u58f0\u660e\uff1b\u540c\u65f6\u68c0\u67e5\u662f\u5426\u6709\u672a\u9a8c\u8bc1\u8bf4\u660e"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=['btn_play_pause', 'song_list', 'tv_song_title']\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "timeline-parsed: \u4ea7\u51fa\u64cd\u4f5c\u65f6\u95f4\u7ebf",
+          "passed": true,
+          "evidence": "timeline \u89e3\u6790\u6210\u529f\uff0c2 \u4e2a\u64cd\u4f5c"
+        },
+        {
+          "text": "csv-header-format-handled: \u89e3\u6790\u51fa click+fling \u4e24\u4e2a\u64cd\u4f5c",
+          "passed": true,
+          "evidence": "timeline \u957f\u5ea6=2"
+        },
+        {
+          "text": "input-gap-surfaced: \u6307\u51fa\u8f93\u5165\u5173\u952e\u8bcd\u7f3a\u5931\u5e76\u6807\u6ce8\u5f85\u786e\u8ba4",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u5173\u952e\u8bcd/\u5f85\u786e\u8ba4/\u7f3a\u5931 \u7b49\u5173\u952e\u8bcd"
+        },
+        {
+          "text": "fling-mapped: fling \u88ab\u6620\u5c04\u4e3a fling/swipe \u64cd\u4f5c",
+          "passed": true,
+          "evidence": "\u641c\u7d22 fling"
+        },
+        {
+          "text": "no-layout-stated: \u8bf4\u660e\u65e0\u5e03\u5c40\u5feb\u7167\u5bfc\u81f4\u65ad\u8a00\u4f9d\u636e\u53d7\u9650",
+          "passed": true,
+          "evidence": "\u641c\u7d22 \u5e03\u5c40\u5feb\u7167/dumpLayout/\u8865\u6293 \u5173\u952e\u8bcd"
+        },
+        {
+          "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' \u9aa8\u67b6",
+          "passed": true,
+          "evidence": "\u68c0\u67e5 import \u4e0e Driver.create"
+        },
+        {
+          "text": "waits-not-sleeps: \u65e0\u88f8 sleep/setTimeout \u7b49\u5f85",
+          "passed": true,
+          "evidence": "\u641c\u7d22 setTimeout/sleep\uff1b\u5b58\u5728 waitFor \u89c6\u4e3a\u7f13\u89e3"
+        },
+        {
+          "text": "selectors-from-evidence: ON.id \u9009\u62e9\u5668\u5168\u90e8\u6765\u81ea\u5f55\u5236\u6570\u636e",
+          "passed": true,
+          "evidence": "\u4f7f\u7528\u7684 id=[]\uff1b\u672a\u77e5 id=[]"
+        },
+        {
+          "text": "case-json-structured: \u7528\u4f8b JSON \u7ed3\u6784\u5b8c\u6574",
+          "passed": true,
+          "evidence": "cases \u6587\u4ef6\u641c\u7d22 steps/expected \u5b57\u6bb5"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

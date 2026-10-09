@@ -1,0 +1,87 @@
+[
+  {
+    "seq": 1,
+    "op": "click",
+    "eventType": "pointer",
+    "fingerNumber": 1,
+    "durationNs": 33885000,
+    "durationMs": 33.885,
+    "selector": {
+      "strategy": "id",
+      "value": "account_input",
+      "fallback": {
+        "bounds": [40, 380, 320, 420],
+        "hierarchy": "ROOT,3,0,0,1,0"
+      }
+    },
+    "target": {
+      "id": "account_input",
+      "type": "TextInput",
+      "text": "",
+      "bounds": { "left": 40, "top": 380, "right": 320, "bottom": 420 },
+      "hierarchy": "ROOT,3,0,0,1,0"
+    },
+    "touch": { "down": { "x": 180, "y": 400 }, "up": { "x": 180, "y": 400 } },
+    "semanticStep": "点击账号输入框使其获得焦点",
+    "followUpInferred": "随后输入账号（uiRecord 不捕获键盘输入，输入步骤见 cases.json，值为用户提供的 test@example.com）",
+    "source": "recorded",
+    "recordRow": 1
+  },
+  {
+    "seq": 2,
+    "op": "click",
+    "eventType": "pointer",
+    "fingerNumber": 1,
+    "durationNs": 30120000,
+    "durationMs": 30.12,
+    "selector": {
+      "strategy": "id",
+      "value": "password_input",
+      "fallback": {
+        "bounds": [40, 480, 320, 520],
+        "hierarchy": "ROOT,3,0,0,2,0"
+      }
+    },
+    "target": {
+      "id": "password_input",
+      "type": "TextInput",
+      "text": "",
+      "bounds": { "left": 40, "top": 480, "right": 320, "bottom": 520 },
+      "hierarchy": "ROOT,3,0,0,2,0"
+    },
+    "touch": { "down": { "x": 180, "y": 500 }, "up": { "x": 180, "y": 500 } },
+    "semanticStep": "点击密码输入框使其获得焦点",
+    "followUpInferred": "随后输入密码（uiRecord 不捕获键盘输入，输入步骤见 cases.json，值为用户提供的 Passw0rd）",
+    "source": "recorded",
+    "recordRow": 2
+  },
+  {
+    "seq": 3,
+    "op": "click",
+    "eventType": "pointer",
+    "fingerNumber": 1,
+    "durationNs": 28900000,
+    "durationMs": 28.9,
+    "selector": {
+      "strategy": "id",
+      "value": "btn_login",
+      "fallback": {
+        "text": "登录",
+        "bounds": [40, 590, 320, 640],
+        "hierarchy": "ROOT,3,0,0,3,0"
+      }
+    },
+    "target": {
+      "id": "btn_login",
+      "type": "Button",
+      "text": "登录",
+      "bounds": { "left": 40, "top": 590, "right": 320, "bottom": 640 },
+      "hierarchy": "ROOT,3,0,0,3,0"
+    },
+    "touch": { "down": { "x": 180, "y": 615 }, "up": { "x": 180, "y": 615 } },
+    "semanticStep": "点击「登录」按钮提交登录",
+    "followUpInferred": "登录成功后进入首页（依据 layout_1727580000000_3.json 快照：Tabs「推荐/我的」+ 歌曲列表 song_list）",
+    "source": "recorded",
+    "recordRow": 3
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "seq": 1,
+    "action": "click",
+    "bundle": "com.example.shop",
+    "ability": "com.example.shop.EntryAbility",
+    "start": {
+      "x": 180,
+      "y": 180
+    },
+    "end": {
+      "x": 180,
+      "y": 180
+    },
+    "duration_ms": 30.5,
+    "widget": {
+      "id": "search_input",
+      "text": "",
+      "type": "TextInput",
+      "bounds": "{\"bottom\":200,\"left\":20,\"right\":340,\"top\":160}",
+      "hier": "ROOT,0,1"
+    },
+    "selector": {
+      "strategy": "id",
+      "on": "ON.id(\"search_input\")"
+    },
+    "selector_risk": "low",
+    "layout_snapshot": "",
+    "warnings": [
+      "命中输入类控件但 uiRecord 不记录文本输入——请从同步录屏或用户处确认输入值，不要臆造"
+    ]
+  },
+  {
+    "seq": 2,
+    "action": "fling",
+    "bundle": "com.example.shop",
+    "ability": "com.example.shop.EntryAbility",
+    "start": {
+      "x": 180,
+      "y": 700
+    },
+    "end": {
+      "x": 180,
+      "y": 260
+    },
+    "duration_ms": 150.0,
+    "widget": {
+      "id": "",
+      "text": "",
+      "type": "List",
+      "bounds": "{\"bottom\":780,\"left\":0,\"right\":360,\"top\":220}",
+      "hier": "ROOT,2"
+    },
+    "selector": {
+      "strategy": "type",
+      "on": "ON.type(\"List\")",
+      "hint": "bounds={\"bottom\":780,\"left\":0,\"right\":360,\"top\":220}"
+    },
+    "selector_risk": "high",
+    "layout_snapshot": "",
+    "warnings": [
+      "type 选择器可能命中多个控件，生成代码时需加 .within(...) 或索引收窄，并人工确认"
+    ]
+  }
+]

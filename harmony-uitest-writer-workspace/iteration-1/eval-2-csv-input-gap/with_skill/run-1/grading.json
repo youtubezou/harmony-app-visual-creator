@@ -1,0 +1,57 @@
+{
+  "eval": "eval-2-csv-input-gap",
+  "config": "with_skill",
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 9,
+    "failed": 0,
+    "total": 9
+  },
+  "expectations": [
+    {
+      "text": "timeline-parsed: 产出操作时间线",
+      "passed": true,
+      "evidence": "timeline 解析成功，2 个操作"
+    },
+    {
+      "text": "csv-header-format-handled: 解析出 click+fling 两个操作",
+      "passed": true,
+      "evidence": "timeline 长度=2"
+    },
+    {
+      "text": "input-gap-surfaced: 指出输入关键词缺失并标注待确认",
+      "passed": true,
+      "evidence": "搜索 关键词/待确认/缺失 等关键词"
+    },
+    {
+      "text": "fling-mapped: fling 被映射为 fling/swipe 操作",
+      "passed": true,
+      "evidence": "搜索 fling"
+    },
+    {
+      "text": "no-layout-stated: 说明无布局快照导致断言依据受限",
+      "passed": true,
+      "evidence": "搜索 布局快照/dumpLayout/补抓 关键词"
+    },
+    {
+      "text": "ets-uses-official-skeleton: '@ohos/hypium' + '@kit.TestKit' 骨架",
+      "passed": true,
+      "evidence": "检查 import 与 Driver.create"
+    },
+    {
+      "text": "waits-not-sleeps: 无裸 sleep/setTimeout 等待",
+      "passed": true,
+      "evidence": "搜索 setTimeout/sleep；存在 waitFor 视为缓解"
+    },
+    {
+      "text": "selectors-from-evidence: ON.id 选择器全部来自录制数据",
+      "passed": true,
+      "evidence": "使用的 id=['search_input']；未知 id=[]"
+    },
+    {
+      "text": "case-json-structured: 用例 JSON 结构完整",
+      "passed": true,
+      "evidence": "cases 文件搜索 steps/expected 字段"
+    }
+  ]
+}

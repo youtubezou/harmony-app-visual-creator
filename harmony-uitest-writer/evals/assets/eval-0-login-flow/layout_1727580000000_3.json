@@ -1,0 +1,15 @@
+{
+  "attributes": {"id": "", "key": "", "type": "root", "text": "", "bounds": "[0,0][360,780]", "hierarchy": "ROOT"},
+  "children": [
+    {"attributes": {"id": "", "type": "Tabs", "text": "", "bounds": "[0,0][360,120]", "hierarchy": "ROOT,0"},
+     "children": [
+       {"attributes": {"id": "", "type": "Tab", "text": "推荐", "bounds": "[0,0][120,60]", "hierarchy": "ROOT,0,0"}, "children": []},
+       {"attributes": {"id": "", "type": "Tab", "text": "我的", "bounds": "[120,0][240,60]", "hierarchy": "ROOT,0,1"}, "children": []}
+     ]},
+    {"attributes": {"id": "song_list", "type": "List", "text": "", "bounds": "[0,120][360,780]", "hierarchy": "ROOT,1"},
+     "children": [
+       {"attributes": {"id": "", "type": "ListItem", "text": "晴天", "bounds": "[0,120][360,180]", "hierarchy": "ROOT,1,0"}, "children": []},
+       {"attributes": {"id": "", "type": "ListItem", "text": "夜曲", "bounds": "[0,180][360,240]", "hierarchy": "ROOT,1,1"}, "children": []}
+     ]}
+  ]
+}

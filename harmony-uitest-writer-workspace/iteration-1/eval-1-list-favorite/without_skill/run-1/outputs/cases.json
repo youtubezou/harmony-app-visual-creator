@@ -1,0 +1,121 @@
+{
+  "schema": "harmony-uitest-cases/1.0",
+  "bundle": "com.example.music",
+  "ability": "com.example.music.EntryAbility",
+  "generated_from": {
+    "record_csv": "harmony-uitest-writer/evals/assets/eval-1-list-favorite/record.csv",
+    "layout_snapshots": ["layout_1727580001000_2.json"],
+    "timeline": "timeline.json"
+  },
+  "verification": {
+    "status": "not_executed",
+    "reason": "生成环境无 hdc / 真机，未做任何回放验证；以下用例均未实际执行",
+    "pending": [
+      "真机执行 ohosTest（hdc shell aa test ...）回放并校准选择器与等待",
+      "确认右下角 Image 图标的真实语义（是否为收藏）及收藏后的可观察信号（selected 态 / contentDescription / Toast）",
+      "为收藏图标争取应用侧 id 或 contentDescription 后，替换当前的 type+bounds 弱选择器"
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-FAV-001",
+      "title": "歌单上滑后打开「夜曲」播放页并点击右下角（推断）收藏图标",
+      "kind": "recorded",
+      "priority": "P0",
+      "implemented_in": "ListFavorite.test.ets -> it('TC-FAV-001_list_swipe_open_song_favorite')",
+      "preconditions": [
+        "设备已安装 com.example.music 且 EntryAbility 可正常启动",
+        "歌单列表非空且包含歌曲「夜曲」（录制数据中无登录态/数据准备证据，按录制现场假设）"
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "action": "swipe",
+          "target": {
+            "selector": "ON.id(\"song_list\")",
+            "selector_risk": "low",
+            "evidence": "record.csv 第1行：W1_ID=song_list, W1_Type=List, W1_BOUNDS=[0,120][360,780]"
+          },
+          "input": {
+            "start": [180, 700],
+            "end": [180, 300],
+            "speed": 1200,
+            "note": "坐标为录制原值（360x780 设备）；其他分辨率需按 song_list 实际 bounds 换算"
+          },
+          "expected": "列表向上滚动，应用不崩溃、不跳页（无列表页快照，预期仅依据录制命中的控件信息，偏宽松）"
+        },
+        {
+          "seq": 2,
+          "action": "click",
+          "target": {
+            "selector": "ON.type(\"ListItem\").text(\"夜曲\")",
+            "selector_risk": "medium",
+            "risk_note": "列表项无 id；文案变更或同名歌曲会失配，可叠加 .within(ON.id(\"song_list\")) 收窄（SDK 支持情况未核实）",
+            "evidence": "record.csv 第2行：W1_Text=夜曲, W1_Type=ListItem, W1_HIER=ROOT,1,3"
+          },
+          "expected": "进入播放页：存在 ON.id(\"tv_song_title\") 且其文本为「夜曲」，且存在 ON.id(\"btn_play_pause\")（两元素均真实存在于 layout_1727580001000_2.json，未臆造）"
+        },
+        {
+          "seq": 3,
+          "action": "click",
+          "target": {
+            "selector": "ON.type(\"Image\") + getBounds() 匹配录制 bounds [300,700][340,740]",
+            "selector_risk": "high",
+            "risk_note": "该 Image 无 id 无 text；bounds 匹配随布局/分辨率变化即失效，属高风险弱选择器，需人工确认",
+            "narrowing_options": [
+              "最优：应用侧补 .id(\"btn_favorite\") / contentDescription，改用强选择器",
+              "ON.within 限定底部控制栏容器（父容器 ROOT,2,1 无 id，需真机 dumpLayout 确认可选父容器）",
+              "findComponents(ON.type(\"Image\")) 后按序取下标（依赖控件顺序，脆弱）",
+              "兜底裸坐标 driver.click(320, 720)（仅临时，换分辨率即失效）"
+            ],
+            "evidence": "record.csv 第3行：W1_Type=Image, W1_BOUNDS={left:300,top:700,right:340,bottom:740}, W1_HIER=ROOT,2,1,0；与 layout_1727580001000_2.json 中 hierarchy=ROOT,2,1,0 的 Image 完全一致"
+          },
+          "expected": "点击命中右下角图标（语义推断为「收藏」，未经快照证实）。⚠️ 无收藏后布局快照，收藏状态变化【待真机验证】；当前脚本仅保守断言点击后仍在播放页（btn_play_pause 存在）"
+        }
+      ]
+    },
+    {
+      "id": "TC-FAV-002",
+      "title": "再次点击收藏图标可取消收藏（toggle）",
+      "kind": "derived",
+      "priority": "P1",
+      "implemented_in": null,
+      "status": "designed_only",
+      "derivation": "由「收藏图标」语义推导：收藏类按钮通常为开关；录制未覆盖该路径，且图标弱选择器与状态信号均未验证，故先不落入 .ets",
+      "preconditions": ["TC-FAV-001 已在真机通过，且收藏语义与状态信号已确认"],
+      "steps": [
+        {
+          "seq": 1,
+          "action": "click",
+          "target": { "selector": "同 TC-FAV-001 第3步（待收窄）" },
+          "expected": "进入收藏态（具体可观察信号待真机确认）"
+        },
+        {
+          "seq": 2,
+          "action": "click",
+          "target": { "selector": "同 TC-FAV-001 第3步（待收窄）" },
+          "expected": "退出收藏态（具体可观察信号待真机确认）"
+        }
+      ]
+    },
+    {
+      "id": "TC-LIST-003",
+      "title": "歌单列表连续滑动到顶部/底部边界不出现异常",
+      "kind": "derived",
+      "priority": "P2",
+      "implemented_in": null,
+      "status": "designed_only",
+      "derivation": "由第1步 swipe 推导的边界场景（列表顶/底越界滚动）；录制未覆盖",
+      "preconditions": ["歌单列表页已展示"],
+      "steps": [
+        {
+          "seq": 1,
+          "action": "swipe",
+          "target": { "selector": "ON.id(\"song_list\")" },
+          "input": { "note": "连续上滑至列表底部，再下滑回顶部（实现时可改用 scrollable 组件的 scrollToEnd/scrollToTop）" },
+          "expected": "应用不崩溃，列表页仍在前台（ON.id(\"song_list\") 存在）"
+        }
+      ]
+    }
+  ]
+}
