@@ -1,0 +1,8 @@
+# Define project specific obfuscation rules here.
+# This file is used for the release build (obfuscation disabled by default;
+# see entry/build-profile.json5 buildOptionSet).
+#
+# Keep options recommended by the default template:
+-keep-property-name
+-keep-dts
+-keep-comments

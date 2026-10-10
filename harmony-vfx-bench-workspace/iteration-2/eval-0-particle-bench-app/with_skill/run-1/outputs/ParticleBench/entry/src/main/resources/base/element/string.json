@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "particle vfx bench entry module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "particle vfx bench entry ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "ParticleBench"
+    }
+  ]
+}

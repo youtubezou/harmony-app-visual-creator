@@ -3,11 +3,26 @@
 鸿蒙视效相关官方文档的离线归档，**编码时直接查阅，无需联网获取**。
 归档时间：2026-09-29/30，来源：OpenHarmony docs 仓库 master 分支（gitee.com/openharmony/docs）。
 
+## ⚠️ 阅读方式：定位式，不要全文读
+
+归档是官方全文，部分文件很大（最大 217KB，18 份超 30KB）。**整本读入会耗尽上下文**。
+正确姿势——先按接口名定位，只读目标小节：
+
+```powershell
+# Windows PowerShell：定位接口（-Context 前2行后15行）
+Select-String -Path "api/ts-particle-animation.md" -Pattern "emitter" -Context 2,15
+# macOS/Linux：先拿行号再按需读
+grep -n "emitter" api/ts-particle-animation.md | head -5
+sed -n '40,90p' api/ts-particle-animation.md
+```
+
+guides/ 下的指南类文件可通读开头概述，示例小节按标题定位。
+
 ## 版本与刷新
 
 - 这是 master 快照。版本对齐裁决：与本地 SDK 声明（ets/api/*.d.ts）冲突时**以 SDK 为准**。
 - 归档外的新接口/商业 Kit：按 ../search-sources.md 联网核实。
-- 刷新归档：运行 `scripts/refresh-api-docs.sh`（按 manifest.txt 重新拉取）。
+- 刷新归档：运行 `scripts/refresh_api_docs.py`（按 manifest.txt 重新拉取）。
 
 ## 目录
 

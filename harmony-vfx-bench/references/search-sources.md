@@ -1,5 +1,7 @@
 # 联网搜索信息源与检索策略
 
+> **使用顺序**：先查归档 `api-docs/`（离线快照）→ 再查本地 SDK 声明（版本裁决）→ 最后用本文方法联网（归档外内容）。
+
 开发任何 HarmonyOS 动效/视效代码前，按本文件核实 API 现状。HarmonyOS API 迭代极快（调研时官方文档已标注到 API 24，且存在全局 `animateTo` 废弃、`pageTransition` 不推荐、`animator.create()` 废弃这类破坏性变化），**凭记忆写鸿蒙动画代码几乎必然踩坑**。
 
 ## 信息源（按采信优先级）
@@ -10,18 +12,18 @@ HarmonyOS SDK 自带的 API 声明文件是与**实际编译版本精确匹配**
 JSDoc/Hdoc 注释里的 `@since`、`@deprecated`、`@useinstead`、`@syscap` 标注就是编译器看到的世界。
 离线、零延迟、版本绝对对齐——**装了 SDK 就先查它，联网源用于补充示例与更新版本前瞻**。
 
-**探测 SDK 位置**（版本间布局有差异，动态探测，不要背路径）：
+**探测 SDK 位置**（Windows 为主；版本间布局有差异，动态探测，不要背路径）：
 
-```bash
-# 常见根目录（macOS）
-ls ~/Library/OpenHarmony/Sdk 2>/dev/null
-ls ~/Library/Huawei/Sdk 2>/dev/null
-ls "/Applications/DevEco-Studio.app/Contents/sdk" 2>/dev/null
-# 兜底：全盘找声明文件（macOS Spotlight 最快）
-mdfind -name "animator" 2>/dev/null | grep -i "ets/api" | head -3
-# 或
-find ~ -maxdepth 8 -type d -name "api" -path "*ets*" 2>/dev/null | head -3
+```powershell
+# 常见根目录（Windows）
+dir "$env:LOCALAPPDATA\OpenHarmony\Sdk"
+dir "$env:LOCALAPPDATA\Huawei\Sdk"
+dir "C:\Program Files\Huawei\DevEco Studio\sdk"
+# 兜底：找 ArkTS 声明文件（PowerShell）
+Get-ChildItem "$env:LOCALAPPDATA\OpenHarmony\Sdk" -Recurse -Filter "*.d.ts" -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
 ```
+
+macOS/Linux 等价物：`~/Library/OpenHarmony/Sdk`、`~/Library/Huawei/Sdk`、`/Applications/DevEco-Studio.app/Contents/sdk`，兜底 `mdfind -name "animator" | grep "ets/api"`。
 
 **典型结构**（探测到 SDK 根目录后确认）：
 
@@ -30,15 +32,15 @@ find ~ -maxdepth 8 -type d -name "api" -path "*ets*" 2>/dev/null | head -3
 <SDK>/<api版本>/native/sysroot/usr/include/    NDK 头文件（XComponent/EGL/GLES 等 .h）
 ```
 
-**用法**：
+**用法**（PowerShell 示例；macOS/Linux 用 grep -B/-A 等价）：
 
-```bash
+```powershell
 # 找 API 声明位置
-grep -rln "animateTo" <SDK根>/<版本>/ets/api/ | head -5
-# 读 JSDoc：@deprecated 会写明替代接口，@since 是起始版本
-grep -B5 -A10 "createAnimator" <找到的.d.ts> | head -40
+Get-ChildItem "<SDK根>\<版本>\ets\api" -Recurse -Filter "*.d.ts" | Select-String -Pattern "animateTo" -List | Select-Object -First 5 Path
+# 读 JSDoc：@deprecated 会写明替代接口，@since 是起始版本（Context 前5行后10行）
+Select-String -Path "<找到的.d.ts>" -Pattern "createAnimator" -Context 5,10
 # NDK 侧（XComponent 等）直接读头文件注释
-grep -B3 -A15 "OH_NativeXComponent" <SDK根>/<版本>/native/sysroot/usr/include/**/*.h | head -40
+Get-ChildItem "<SDK根>\<版本>\native\sysroot\usr\include" -Recurse -Filter "*.h" | Select-String -Pattern "OH_NativeXComponent" -Context 3,15 -List | Select-Object -First 5 Path
 ```
 
 **采信规则**：SDK 声明与网上文档冲突时，**以 SDK 为准**（它决定编译成败）；
@@ -53,7 +55,7 @@ SDK 里没有的新接口（更高版本），才去 gitee master / 华为文档
 raw URL 模式：https://gitee.com/openharmony/docs/raw/master/zh-cn/<路径>
 ```
 
-**注意：必须 `curl -L` 跟随重定向**，否则拿到的是 302 跳转占位页（约 500 字节的 HTML），不是正文。
+**注意：必须 `curl -L` 跟随重定向**（Windows PowerShell 里写 `curl.exe -L`，裸 `curl` 是 Invoke-WebRequest 别名，不识别 `-L`），否则拿到的是 302 跳转占位页（约 500 字节的 HTML），不是正文。
 
 关键路径模式：
 
@@ -65,12 +67,11 @@ raw URL 模式：https://gitee.com/openharmony/docs/raw/master/zh-cn/<路径>
 | 图形/效果（effectKit、uiEffect、drawing） | `application-dev/reference/apis-arkgraphics2d/*.md` |
 | 工程结构 | `application-dev/quick-start/application-package-structure-stage.md` |
 
-不知道确切文件名时，用 Gitee API 列目录后过滤：
+不知道确切文件名时，用 Gitee API 列目录后过滤（单行书写；Windows 用 `curl.exe`——PowerShell 里裸 `curl` 是 Invoke-WebRequest 别名，参数不兼容）：
 
-```bash
+```powershell
 # 列出目录（注意：返回 JSON 中类型字段是 dir/file，不是 GitHub 的 tree/blob）
-curl -sSL "https://gitee.com/api/v5/repos/openharmony/docs/contents/zh-cn/application-dev/ui" \
-  | python3 -c "import json,sys; print('\n'.join(e['name'] for e in json.load(sys.stdin)))"
+curl.exe -sSL "https://gitee.com/api/v5/repos/openharmony/docs/contents/zh-cn/application-dev/ui" | python -c "import json,sys; print('\n'.join(e['name'] for e in json.load(sys.stdin)))"
 # 匿名调用有频率限制（约 60 次/小时），失败时等几秒重试
 ```
 
@@ -177,6 +178,6 @@ API 参考：https://developer.huawei.com/consumer/cn/doc/harmonyos-references/<
 
 1. `web_search`（有关键词覆盖优势）
 2. `web_fetch` 直接抓文档 URL
-3. `curl -L` 抓 gitee raw Markdown（本 skill 调研已证实全程可行，最稳定）
+3. `curl.exe -L`（Windows）/ `curl -L`（macOS/Linux）抓 gitee raw Markdown（本 skill 调研已证实全程可行，最稳定）
 
 **交叉验证规则**：同一 API 至少在官方文档（gitee 或 developer.huawei.com）核实一次；博客内容必须二次验证。搜索不到当前版本资料时，明确告知用户「该 API 可能已废弃或改名」并给替代方案，不要硬写。

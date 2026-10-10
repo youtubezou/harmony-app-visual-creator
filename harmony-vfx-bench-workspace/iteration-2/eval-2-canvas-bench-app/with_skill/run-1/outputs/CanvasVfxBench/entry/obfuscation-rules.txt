@@ -1,0 +1,2 @@
+# Keep everything: benchmark code must not be altered by obfuscation.
+-disable-obfuscation

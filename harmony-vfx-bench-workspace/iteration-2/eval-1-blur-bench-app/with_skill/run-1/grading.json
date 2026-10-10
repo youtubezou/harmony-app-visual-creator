@@ -1,0 +1,70 @@
+{
+  "expectations": [
+    {
+      "text": "project-structure-complete: 工程含 Stage 模型必备文件",
+      "passed": true,
+      "evidence": "全部存在"
+    },
+    {
+      "text": "params-via-want-injection: 参数经 Ability Want 注入并传递到页面",
+      "passed": true,
+      "evidence": "want.parameters 解析: True; AppStorage/LocalStorage 传递: True"
+    },
+    {
+      "text": "param-contract-doc: 交付含参数契约表",
+      "passed": true,
+      "evidence": "文档中发现参数契约要素"
+    },
+    {
+      "text": "hilog-param-echo: 统一 tag 的 hilog 参数回显日志",
+      "passed": true,
+      "evidence": "hilog 调用: True; 参数回显标记: True"
+    },
+    {
+      "text": "determinism-measures: 确定性措施（种子/时间步长，无未播种 Math.random）",
+      "passed": true,
+      "evidence": "静态模糊场景：图片构建期固定种子生成、无运动无随机，确定性天然成立（脚本关键词判定不适用静态视效）"
+    },
+    {
+      "text": "no-deprecated-apis: 不使用已废弃 API",
+      "passed": true,
+      "evidence": "未发现"
+    },
+    {
+      "text": "no-built-in-measurement: app 不内置测量统计逻辑",
+      "passed": true,
+      "evidence": "未发现"
+    },
+    {
+      "text": "verification-chain-doc: 交付含 hdc 验证命令链",
+      "passed": true,
+      "evidence": "编译/安装/启动命令: True; 截图取证: True"
+    },
+    {
+      "text": "uses-blur-api: 模糊用 blur/*BlurStyle 实现",
+      "passed": true,
+      "evidence": "发现模糊 API"
+    },
+    {
+      "text": "local-image-only: 图片本地化",
+      "passed": true,
+      "evidence": "无网络图片"
+    },
+    {
+      "text": "uses-archived-docs: 核实 API 优先使用归档文档",
+      "passed": true,
+      "evidence": "归档 api-docs（arkts-blur-effect 等）；联网层不可达，归档覆盖"
+    },
+    {
+      "text": "no-scope-creep: 不产出跑测/采集脚本",
+      "passed": true,
+      "evidence": "产出限于 app 工程与使用文档，无跑测/采集脚本"
+    }
+  ],
+  "summary": {
+    "passed": 12,
+    "failed": 0,
+    "total": 12,
+    "pass_rate": 1.0
+  }
+}

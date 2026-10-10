@@ -1,0 +1,37 @@
+{
+  "app": {
+    // 未内置签名材料：首次用 DevEco Studio 打开后
+    // File -> Project Structure -> Signing Configs -> Automatically generate signature
+    // 会自动把 default 签名配置写回本文件，此后命令行 hvigorw 编译自动带签名。
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

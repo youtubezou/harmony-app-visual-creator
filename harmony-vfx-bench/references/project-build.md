@@ -1,15 +1,20 @@
 # Benchmark 工程构建、签名与真机链路
 
+> **归档提示**：Stage 工程结构与配置文件官方说明已归档在 `api-docs/guides/`（`application-package-structure-stage.md` 等）。
+
 面向 benchmark app 的工程指南：结构从简（单模块单页面），重点在**编译 → 签名 → 安装 → 带参启动**这条链。
 
-## 1. 环境探测
+## 1. 环境探测（Windows 为主）
 
-```bash
-which hvigorw ohpm hdc
-hdc list targets                                   # 真机在线才有输出
-ls /Applications/DevEco-Studio.app 2>/dev/null
-ls ~/Library/OpenHarmony/Sdk 2>/dev/null || ls ~/Library/Huawei/Sdk 2>/dev/null
+```powershell
+where.exe hvigorw ohpm hdc                              # PowerShell 必须写全 where.exe
+hdc list targets                                        # 真机在线才有输出
+dir "$env:LOCALAPPDATA\OpenHarmony\Sdk"                 # OpenHarmony SDK（Windows 常见）
+dir "$env:LOCALAPPDATA\Huawei\Sdk"                      # 华为 SDK（部分版本）
+dir "C:\Program Files\Huawei\DevEco Studio"             # DevEco Studio 默认安装目录
 ```
+
+（macOS/Linux：`which hvigorw ohpm hdc`、`~/Library/OpenHarmony/Sdk`、`/Applications/DevEco-Studio.app`。）
 
 | 探测结果 | 策略 |
 |---|---|
@@ -69,23 +74,23 @@ hdc 安装要求 hap 已签名。两种路径：
 没有签名条件的场景：编译出未签名 hap 也能交付，但交付文档必须标注「需用户配置签名后安装」，
 可用性验证步骤降级为文档化。
 
-## 4. 命令链（验证流程的完整版）
+## 4. 命令链（验证流程的完整版，Windows）
 
-```bash
-# 编译（产物：entry/build/default/outputs/default/entry-default-signed.hap）
+```powershell
+# 编译（产物：entry\build\default\outputs\default\entry-default-signed.hap）
 ohpm install                                        # 首次/依赖变更后
 hvigorw assembleHap --mode module -p product=default --no-daemon
 
 # 安装 / 覆盖安装
-hdc install -r entry/build/default/outputs/default/entry-default-signed.hap
+hdc install -r entry\build\default\outputs\default\entry-default-signed.hap
 
-# 带参启动（官方 aa-tool.md 已核实参数形式）
-hdc shell aa start -b <bundleName> -a EntryAbility \
-  --pi particle_count 1000 --ps scene rain --pb fixed_seed true \
-  --wl 0 --wt 0 --ww 1080 --wh 2340                  # 固定窗口（可选，消除窗口变量）
+# 带参启动（官方 aa-tool.md 已核实参数形式；单行书写，CMD/PowerShell 不支持 \ 续行）
+hdc shell aa start -b <bundleName> -a EntryAbility --pi particle_count 1000 --ps scene rain --pb fixed_seed true
+# 固定窗口（可选，消除窗口变量；仅 2in1 设备生效，手机端用 app 内固定视口替代）
+hdc shell aa start -b <bundleName> -a EntryAbility --wl 0 --wt 0 --ww 1080 --wh 2340
 
-# 观测（参数回显、生命周期日志）
-hdc shell hilog | grep VFXBENCH
+# 观测（参数回显、生命周期日志；PowerShell 用 Select-String，macOS/Linux 用 grep）
+hdc shell hilog | findstr VFXBENCH
 
 # 截图取证
 hdc shell snapshot_display -f /data/local/tmp/shot.jpeg
@@ -105,7 +110,7 @@ hdc uninstall <bundleName>
 | `main_pages.json` 相关报错 | 页面未注册 | 注册 `pages/BenchPage` |
 | 安装 `error: signature verification failed` | 未签名/签名不匹配 | 第 3 节 |
 | `aa start` 报 ability not found | abilityName/bundleName 不匹配 | 核对 module.json5 |
-| 截图纯黑 | loadContent 失败或页面崩溃 | `hilog \| grep VFXBENCH` 看 error；先单参数跑通 |
+| 截图纯黑 | loadContent 失败或页面崩溃 | `hilog` 看 error（Windows 配 `findstr`，macOS/Linux 配 `grep`）；先单参数跑通 |
 | hdc 无设备 | 线缆/授权/HDC 服务 | `hdc kill -r` 重启；设备端确认「允许 USB 调试」 |
 
 ## 6. 交付检查清单

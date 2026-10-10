@@ -15,3 +15,9 @@
 - [ ] skill 确定性一节：墙钟 vs 帧计数双模式及取舍（从基线学到）
 - [ ] 新增 no-scope-creep 断言（不产出跑测脚本/采集脚本）
 - [x] 评分脚本：可选链 want?.parameters 正则（已修）
+
+## 迭代 2 中断事件（归档引入的新问题）
+- 现象：eval-0/eval-2 两个 with_skill 代理上下文耗尽中断（无产出）。
+- 根因：归档为官方全文（72 份中 18 份 >30KB，最大 ts-canvasrenderingcontext2d.md 217KB），代理「认真查阅」时整本读入。
+- 修复（已落入 skill）：SKILL.md Step 2 与 api-docs/INDEX.md 增加「定位式阅读」指引（Select-String/grep 定位小节，禁止全文读入大文件）。
+- 重跑：eval-0/eval-2 用精简提示重启（强调定位阅读+不联网+代码聚焦）。

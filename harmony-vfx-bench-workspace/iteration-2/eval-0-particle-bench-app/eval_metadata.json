@@ -1,0 +1,18 @@
+{
+  "eval_id": 0,
+  "eval_name": "eval-0-particle-bench-app",
+  "prompt": "帮我开发一个鸿蒙粒子视效的 benchmark app：页面只渲染粒子效果（下雨场景），粒子数量和发射速率要能通过启动参数从外部注入——我的跑测脚本会用 hdc aa start 批量传不同参数测负载，没传参时默认 500 个粒子。装到真机上要能直接跑。",
+  "assertions": [
+    "project-structure-complete: 工程含 Stage 模型必备文件（AppScope/app.json5、entry/src/main/module.json5、entry/src/main/ets/entryability/EntryAbility.ets、entry/src/main/resources/base/profile/main_pages.json、build-profile.json5、hvigorfile.ts、oh-package.json5）",
+    "params-via-want-injection: 关键参数经 Ability Want 启动参数注入（解析 want.parameters 并经 AppStorage/LocalStorage 传到页面），而非仅 UI 输入或硬编码",
+    "param-contract-doc: 交付含参数契约表（键名/类型/范围/默认值），供外部跑测脚本使用",
+    "hilog-param-echo: 有统一 tag 的 hilog 参数回显日志（如 LAUNCH_PARAMS），供外部工具对齐采样窗口",
+    "determinism-measures: 有确定性措施（固定随机种子/固定时间步长/无未播种的 Math.random）",
+    "no-deprecated-apis: 不使用已废弃 API（全局 animateTo、animator.create、ParticleSystem/ParticleComponent、pageTransition、TransitionOptions）",
+    "no-built-in-measurement: app 不内置 FPS/帧耗时/CPU 等测量统计逻辑（测量归外部工具）",
+    "verification-chain-doc: 交付含 hdc 验证命令链（hvigorw 编译 + hdc install + aa start 带参 + 截图取证）",
+    "uses-particle-component: 粒子效果用当前 Particle 组件实现",
+    "uses-archived-docs: 核实 API 时优先使用归档文档 references/api-docs/（运行报告注明查阅了归档文件），非必要不联网",
+    "no-scope-creep: 不产出跑测/采集脚本（跑测编排与指标采集归外部工具链），交付物限于 app 工程与使用文档"
+  ]
+}

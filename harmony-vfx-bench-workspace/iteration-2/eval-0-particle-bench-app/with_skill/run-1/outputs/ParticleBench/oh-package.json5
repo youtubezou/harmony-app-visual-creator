@@ -1,0 +1,10 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "particlebench",
+  "version": "1.0.0",
+  "description": "HarmonyOS particle (rain) VFX benchmark app",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {}
+}

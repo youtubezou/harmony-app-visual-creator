@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "VFXBENCH blur benchmark module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Blur benchmark ability"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "BlurBench"
+    }
+  ]
+}

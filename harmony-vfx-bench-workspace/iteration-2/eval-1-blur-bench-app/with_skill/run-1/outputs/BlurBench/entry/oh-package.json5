@@ -1,0 +1,10 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "VFXBENCH blur benchmark entry module",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+  }
+}

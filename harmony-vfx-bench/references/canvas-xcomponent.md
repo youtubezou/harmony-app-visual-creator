@@ -1,5 +1,7 @@
 # Canvas 自绘、XComponent 原生渲染与图像处理
 
+> **归档提示**：Canvas/XComponent/CanvasRenderingContext2D 等接口全文已离线归档在 `api-docs/`（`ts-components-canvas-canvas.md`、`ts-canvasrenderingcontext2d.md`、`napi-xcomponent-guidelines.md` 等），编码时直接查阅。
+
 选型决策（成本从低到高）：
 
 ```dot
